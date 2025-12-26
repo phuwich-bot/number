@@ -35,1435 +35,658 @@ a);requestAnimationFrame(function(){g(document.body)})})}var l=["material-icons"
 
 </script>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>รายงานฉบับสมบูรณ์: การวิเคราะห์นโยบายเลขไทยในระบบดิจิทัล (164 Records)</title>
-    
-    <!-- Scripts & Styles -->
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>รายงานผลการวิเคราะห์ข้อมูลเชิงสถิติและคุณภาพ: นโยบายการใช้เลขไทยในระบบดิจิทัล</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <!-- Google Fonts: Sarabun -->
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
-
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0" rel="stylesheet">
     <style>
-        body { font-family: 'Sarabun', sans-serif; background-color: #f8fafc; color: #1e293b; }
+        body { font-family: 'Sarabun', sans-serif; background-color: #f8fafc; color: #1e293b; scroll-behavior: smooth; }
+        .card {
+            background: white; border-radius: 0.75rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            padding: 1.5rem; border: 1px solid #e2e8f0; height: 100%;
+        }
+        .section-header {
+            display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem; border-bottom: 2px solid #f1f5f9;
+        }
+        .section-title { font-size: 1.25rem; font-weight: 700; color: #334155; }
+        .section-number { 
+            background: #2563eb; color: white; width: 32px; height: 32px; 
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+            font-size: 1rem; font-weight: bold; flex-shrink: 0;
+        }
         
-        /* Custom Animations */
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
+        /* Deep Dive Specifics */
+        .quote-card {
+            background-color: #f8fafc; border-left: 4px solid #3b82f6;
+            padding: 1rem; border-radius: 0 0.5rem 0.5rem 0; margin-bottom: 1rem;
+            position: relative; transition: transform 0.2s;
+        }
+        .quote-card:hover { transform: translateX(4px); background-color: #f0f9ff; }
+        .keyword-chip {
+            display: inline-flex; align-items: center; padding: 0.125rem 0.5rem;
+            border-radius: 9999px; font-size: 0.75rem; font-weight: 600;
+            background-color: #e2e8f0; color: #475569; margin-right: 0.25rem; margin-bottom: 0.25rem;
+        }
         
-        /* Card Styles */
-        .card { background: white; border-radius: 16px; padding: 24px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03); border: 1px solid #e2e8f0; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        .card:hover { box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); transform: translateY(-2px); }
-        
-        /* Tab Styles */
-        .tab-btn { position: relative; padding: 12px 24px; font-weight: 600; color: #64748b; transition: all 0.2s; white-space: nowrap; }
-        .tab-btn:hover { color: #2563eb; background-color: #eff6ff; border-radius: 8px; }
-        .tab-btn.active { color: #2563eb; background-color: #dbeafe; border-radius: 8px; }
-        .tab-btn.active::after { content: ''; position: absolute; bottom: -14px; left: 50%; transform: translateX(-50%); width: 40%; height: 3px; background-color: #2563eb; border-radius: 3px 3px 0 0; }
+        /* Stat Bars */
+        .stat-bar-bg { width: 100%; background-color: #e2e8f0; border-radius: 9999px; height: 0.5rem; overflow: hidden; }
+        .stat-bar-fill { height: 100%; border-radius: 9999px; }
 
-        /* Table Styles */
-        .data-table th { background-color: #f1f5f9; color: #475569; font-weight: 600; text-transform: uppercase; font-size: 0.75rem; padding: 12px 16px; text-align: left; }
-        .data-table td { padding: 12px 16px; border-bottom: 1px solid #f1f5f9; font-size: 0.875rem; }
-        .data-table tr:last-child td { border-bottom: none; }
-        .data-table tr:hover { background-color: #f8fafc; }
-
-        /* Badge Styles */
-        .badge { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 9999px; font-size: 0.7rem; font-weight: 700; }
-        .badge-red { background: #fee2e2; color: #991b1b; }
-        .badge-green { background: #dcfce7; color: #166534; }
-        .badge-blue { background: #dbeafe; color: #1e40af; }
-        .badge-orange { background: #ffedd5; color: #9a3412; }
+        @media print {
+            .no-print { display: none !important; }
+            .card { break-inside: avoid; border: 1px solid #ccc; box-shadow: none; page-break-inside: avoid; }
+            body { background: white; }
+            .grid { display: block !important; }
+            .grid > * { margin-bottom: 20px; }
+        }
     </style>
-<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.sticky{position:sticky}.inset-0{inset:0px}.left-3{left:0.75rem}.right-0{right:0px}.top-0{top:0px}.top-2\.5{top:0.625rem}.z-10{z-index:10}.z-50{z-index:50}.mx-auto{margin-left:auto;margin-right:auto}.-mr-10{margin-right:-2.5rem}.-mt-10{margin-top:-2.5rem}.mb-2{margin-bottom:0.5rem}.mb-3{margin-bottom:0.75rem}.mb-4{margin-bottom:1rem}.mb-6{margin-bottom:1.5rem}.mt-2{margin-top:0.5rem}.mt-4{margin-top:1rem}.mb-1{margin-bottom:0.25rem}.flex{display:flex}.grid{display:grid}.hidden{display:none}.h-12{height:3rem}.h-20{height:5rem}.h-32{height:8rem}.h-64{height:16rem}.h-72{height:18rem}.h-80{height:20rem}.h-2\.5{height:0.625rem}.max-h-\[340px\]{max-height:340px}.max-h-\[500px\]{max-height:500px}.w-12{width:3rem}.w-24{width:6rem}.w-64{width:16rem}.w-fit{width:-moz-fit-content;width:fit-content}.w-full{width:100%}.w-3\/4{width:75%}.max-w-7xl{max-width:80rem}.max-w-sm{max-width:24rem}.max-w-\[100px\]{max-width:100px}.max-w-\[150px\]{max-width:150px}.list-inside{list-style-position:inside}.list-decimal{list-style-type:decimal}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.flex-col{flex-direction:column}.items-start{align-items:flex-start}.items-center{align-items:center}.items-baseline{align-items:baseline}.justify-end{justify-content:flex-end}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-2{gap:0.5rem}.gap-3{gap:0.75rem}.gap-4{gap:1rem}.gap-6{gap:1.5rem}.gap-8{gap:2rem}.space-x-2 > :not([hidden]) ~ :not([hidden]){--tw-space-x-reverse:0;margin-right:calc(0.5rem * var(--tw-space-x-reverse));margin-left:calc(0.5rem * calc(1 - var(--tw-space-x-reverse)))}.space-y-2 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.5rem * var(--tw-space-y-reverse))}.space-y-3 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.75rem * var(--tw-space-y-reverse))}.space-y-4 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1rem * var(--tw-space-y-reverse))}.space-y-6 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1.5rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1.5rem * var(--tw-space-y-reverse))}.space-y-8 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(2rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(2rem * var(--tw-space-y-reverse))}.overflow-hidden{overflow:hidden}.overflow-x-auto{overflow-x:auto}.overflow-y-auto{overflow-y:auto}.truncate{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.rounded{border-radius:0.25rem}.rounded-2xl{border-radius:1rem}.rounded-full{border-radius:9999px}.rounded-lg{border-radius:0.5rem}.rounded-xl{border-radius:0.75rem}.border{border-width:1px}.border-b{border-bottom-width:1px}.border-l-2{border-left-width:2px}.border-l-4{border-left-width:4px}.border-t-4{border-top-width:4px}.border-blue-100{--tw-border-opacity:1;border-color:rgb(219 234 254 / var(--tw-border-opacity, 1))}.border-blue-400{--tw-border-opacity:1;border-color:rgb(96 165 250 / var(--tw-border-opacity, 1))}.border-blue-500{--tw-border-opacity:1;border-color:rgb(59 130 246 / var(--tw-border-opacity, 1))}.border-emerald-400{--tw-border-opacity:1;border-color:rgb(52 211 153 / var(--tw-border-opacity, 1))}.border-emerald-500{--tw-border-opacity:1;border-color:rgb(16 185 129 / var(--tw-border-opacity, 1))}.border-orange-100{--tw-border-opacity:1;border-color:rgb(255 237 213 / var(--tw-border-opacity, 1))}.border-orange-500{--tw-border-opacity:1;border-color:rgb(249 115 22 / var(--tw-border-opacity, 1))}.border-purple-500{--tw-border-opacity:1;border-color:rgb(168 85 247 / var(--tw-border-opacity, 1))}.border-red-100{--tw-border-opacity:1;border-color:rgb(254 226 226 / var(--tw-border-opacity, 1))}.border-red-500{--tw-border-opacity:1;border-color:rgb(239 68 68 / var(--tw-border-opacity, 1))}.border-slate-100{--tw-border-opacity:1;border-color:rgb(241 245 249 / var(--tw-border-opacity, 1))}.border-slate-200{--tw-border-opacity:1;border-color:rgb(226 232 240 / var(--tw-border-opacity, 1))}.border-slate-300{--tw-border-opacity:1;border-color:rgb(203 213 225 / var(--tw-border-opacity, 1))}.border-yellow-400{--tw-border-opacity:1;border-color:rgb(250 204 21 / var(--tw-border-opacity, 1))}.border-yellow-500{--tw-border-opacity:1;border-color:rgb(234 179 8 / var(--tw-border-opacity, 1))}.bg-black{--tw-bg-opacity:1;background-color:rgb(0 0 0 / var(--tw-bg-opacity, 1))}.bg-blue-50{--tw-bg-opacity:1;background-color:rgb(239 246 255 / var(--tw-bg-opacity, 1))}.bg-blue-600{--tw-bg-opacity:1;background-color:rgb(37 99 235 / var(--tw-bg-opacity, 1))}.bg-emerald-50{--tw-bg-opacity:1;background-color:rgb(236 253 245 / var(--tw-bg-opacity, 1))}.bg-orange-50{--tw-bg-opacity:1;background-color:rgb(255 247 237 / var(--tw-bg-opacity, 1))}.bg-red-50{--tw-bg-opacity:1;background-color:rgb(254 242 242 / var(--tw-bg-opacity, 1))}.bg-slate-100{--tw-bg-opacity:1;background-color:rgb(241 245 249 / var(--tw-bg-opacity, 1))}.bg-slate-200{--tw-bg-opacity:1;background-color:rgb(226 232 240 / var(--tw-bg-opacity, 1))}.bg-slate-50{--tw-bg-opacity:1;background-color:rgb(248 250 252 / var(--tw-bg-opacity, 1))}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity, 1))}.bg-pink-50{--tw-bg-opacity:1;background-color:rgb(253 242 248 / var(--tw-bg-opacity, 1))}.bg-purple-50{--tw-bg-opacity:1;background-color:rgb(250 245 255 / var(--tw-bg-opacity, 1))}.bg-opacity-50{--tw-bg-opacity:0.5}.bg-opacity-90{--tw-bg-opacity:0.9}.bg-gradient-to-r{background-image:linear-gradient(to right, var(--tw-gradient-stops))}.from-slate-900{--tw-gradient-from:#0f172a var(--tw-gradient-from-position);--tw-gradient-to:rgb(15 23 42 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.to-slate-800{--tw-gradient-to:#1e293b var(--tw-gradient-to-position)}.p-4{padding:1rem}.p-5{padding:1.25rem}.p-6{padding:1.5rem}.p-8{padding:2rem}.px-2{padding-left:0.5rem;padding-right:0.5rem}.px-4{padding-left:1rem;padding-right:1rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.py-1{padding-top:0.25rem;padding-bottom:0.25rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.py-4{padding-top:1rem;padding-bottom:1rem}.py-8{padding-top:2rem;padding-bottom:2rem}.pl-4{padding-left:1rem}.pl-9{padding-left:2.25rem}.pr-4{padding-right:1rem}.pb-2{padding-bottom:0.5rem}.text-left{text-align:left}.text-center{text-align:center}.text-right{text-align:right}.font-mono{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}.text-2xl{font-size:1.5rem;line-height:2rem}.text-3xl{font-size:1.875rem;line-height:2.25rem}.text-4xl{font-size:2.25rem;line-height:2.5rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-xs{font-size:0.75rem;line-height:1rem}.font-bold{font-weight:700}.font-medium{font-weight:500}.font-semibold{font-weight:600}.uppercase{text-transform:uppercase}.leading-relaxed{line-height:1.625}.leading-tight{line-height:1.25}.tracking-wider{letter-spacing:0.05em}.text-blue-400{--tw-text-opacity:1;color:rgb(96 165 250 / var(--tw-text-opacity, 1))}.text-blue-600{--tw-text-opacity:1;color:rgb(37 99 235 / var(--tw-text-opacity, 1))}.text-blue-700{--tw-text-opacity:1;color:rgb(29 78 216 / var(--tw-text-opacity, 1))}.text-blue-800{--tw-text-opacity:1;color:rgb(30 64 175 / var(--tw-text-opacity, 1))}.text-blue-900{--tw-text-opacity:1;color:rgb(30 58 138 / var(--tw-text-opacity, 1))}.text-emerald-400{--tw-text-opacity:1;color:rgb(52 211 153 / var(--tw-text-opacity, 1))}.text-emerald-600{--tw-text-opacity:1;color:rgb(5 150 105 / var(--tw-text-opacity, 1))}.text-emerald-700{--tw-text-opacity:1;color:rgb(4 120 87 / var(--tw-text-opacity, 1))}.text-orange-600{--tw-text-opacity:1;color:rgb(234 88 12 / var(--tw-text-opacity, 1))}.text-orange-700{--tw-text-opacity:1;color:rgb(194 65 12 / var(--tw-text-opacity, 1))}.text-orange-800{--tw-text-opacity:1;color:rgb(154 52 18 / var(--tw-text-opacity, 1))}.text-orange-900{--tw-text-opacity:1;color:rgb(124 45 18 / var(--tw-text-opacity, 1))}.text-pink-600{--tw-text-opacity:1;color:rgb(219 39 119 / var(--tw-text-opacity, 1))}.text-purple-600{--tw-text-opacity:1;color:rgb(147 51 234 / var(--tw-text-opacity, 1))}.text-red-600{--tw-text-opacity:1;color:rgb(220 38 38 / var(--tw-text-opacity, 1))}.text-red-800{--tw-text-opacity:1;color:rgb(153 27 27 / var(--tw-text-opacity, 1))}.text-red-900{--tw-text-opacity:1;color:rgb(127 29 29 / var(--tw-text-opacity, 1))}.text-slate-300{--tw-text-opacity:1;color:rgb(203 213 225 / var(--tw-text-opacity, 1))}.text-slate-400{--tw-text-opacity:1;color:rgb(148 163 184 / var(--tw-text-opacity, 1))}.text-slate-500{--tw-text-opacity:1;color:rgb(100 116 139 / var(--tw-text-opacity, 1))}.text-slate-600{--tw-text-opacity:1;color:rgb(71 85 105 / var(--tw-text-opacity, 1))}.text-slate-700{--tw-text-opacity:1;color:rgb(51 65 85 / var(--tw-text-opacity, 1))}.text-slate-800{--tw-text-opacity:1;color:rgb(30 41 59 / var(--tw-text-opacity, 1))}.text-slate-900{--tw-text-opacity:1;color:rgb(15 23 42 / var(--tw-text-opacity, 1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.text-yellow-400{--tw-text-opacity:1;color:rgb(250 204 21 / var(--tw-text-opacity, 1))}.text-yellow-600{--tw-text-opacity:1;color:rgb(202 138 4 / var(--tw-text-opacity, 1))}.opacity-5{opacity:0.05}.shadow-2xl{--tw-shadow:0 25px 50px -12px rgb(0 0 0 / 0.25);--tw-shadow-colored:0 25px 50px -12px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-lg{--tw-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-md{--tw-shadow:0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-sm{--tw-shadow:0 1px 2px 0 rgb(0 0 0 / 0.05);--tw-shadow-colored:0 1px 2px 0 var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-xl{--tw-shadow:0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-blue-200{--tw-shadow-color:#bfdbfe;--tw-shadow:var(--tw-shadow-colored)}.blur-3xl{--tw-blur:blur(64px);filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.backdrop-blur-md{--tw-backdrop-blur:blur(12px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.transition{transition-property:color, background-color, border-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.hover\:bg-blue-700:hover{--tw-bg-opacity:1;background-color:rgb(29 78 216 / var(--tw-bg-opacity, 1))}.hover\:bg-slate-200:hover{--tw-bg-opacity:1;background-color:rgb(226 232 240 / var(--tw-bg-opacity, 1))}.hover\:bg-slate-300:hover{--tw-bg-opacity:1;background-color:rgb(203 213 225 / var(--tw-bg-opacity, 1))}.hover\:bg-slate-50:hover{--tw-bg-opacity:1;background-color:rgb(248 250 252 / var(--tw-bg-opacity, 1))}.hover\:underline:hover{-webkit-text-decoration-line:underline;text-decoration-line:underline}.focus\:outline-none:focus{outline:2px solid transparent;outline-offset:2px}.focus\:ring-2:focus{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)}.focus\:ring-blue-500:focus{--tw-ring-opacity:1;--tw-ring-color:rgb(59 130 246 / var(--tw-ring-opacity, 1))}@media (min-width: 640px){.sm\:px-6{padding-left:1.5rem;padding-right:1.5rem}}@media (min-width: 768px){.md\:flex{display:flex}.md\:w-64{width:16rem}.md\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.md\:grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}.md\:flex-row{flex-direction:row}.md\:items-center{align-items:center}}@media (min-width: 1024px){.lg\:col-span-1{grid-column:span 1 / span 1}.lg\:col-span-2{grid-column:span 2 / span 2}.lg\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.lg\:grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}.lg\:grid-cols-4{grid-template-columns:repeat(4, minmax(0, 1fr))}.lg\:px-8{padding-left:2rem;padding-right:2rem}}</style></head>
+<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.absolute{position:absolute}.relative{position:relative}.sticky{position:sticky}.-left-\[33px\]{left:-33px}.right-0{right:0px}.right-2{right:0.5rem}.top-0{top:0px}.top-2{top:0.5rem}.z-50{z-index:50}.col-span-1{grid-column:span 1 / span 1}.col-span-2{grid-column:span 2 / span 2}.mx-auto{margin-left:auto;margin-right:auto}.mb-1{margin-bottom:0.25rem}.mb-2{margin-bottom:0.5rem}.mb-3{margin-bottom:0.75rem}.mb-4{margin-bottom:1rem}.mb-6{margin-bottom:1.5rem}.ml-4{margin-left:1rem}.ml-6{margin-left:1.5rem}.mt-1{margin-top:0.25rem}.mt-12{margin-top:3rem}.mt-2{margin-top:0.5rem}.block{display:block}.inline-block{display:inline-block}.flex{display:flex}.grid{display:grid}.h-16{height:4rem}.h-4{height:1rem}.h-64{height:16rem}.w-1\/2{width:50%}.w-4{width:1rem}.w-full{width:100%}.min-w-full{min-width:100%}.max-w-7xl{max-width:80rem}.flex-1{flex:1 1 0%}.list-inside{list-style-position:inside}.list-disc{list-style-type:disc}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.flex-wrap{flex-wrap:wrap}.items-end{align-items:flex-end}.items-center{align-items:center}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-1{gap:0.25rem}.gap-2{gap:0.5rem}.gap-3{gap:0.75rem}.gap-4{gap:1rem}.gap-6{gap:1.5rem}.gap-8{gap:2rem}.space-y-1 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.25rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.25rem * var(--tw-space-y-reverse))}.space-y-2 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.5rem * var(--tw-space-y-reverse))}.space-y-4 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1rem * var(--tw-space-y-reverse))}.space-y-6 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1.5rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1.5rem * var(--tw-space-y-reverse))}.space-y-8 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(2rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(2rem * var(--tw-space-y-reverse))}.divide-y > :not([hidden]) ~ :not([hidden]){--tw-divide-y-reverse:0;border-top-width:calc(1px * calc(1 - var(--tw-divide-y-reverse)));border-bottom-width:calc(1px * var(--tw-divide-y-reverse))}.divide-gray-100 > :not([hidden]) ~ :not([hidden]){--tw-divide-opacity:1;border-color:rgb(243 244 246 / var(--tw-divide-opacity, 1))}.overflow-hidden{overflow:hidden}.overflow-x-auto{overflow-x:auto}.rounded{border-radius:0.25rem}.rounded-full{border-radius:9999px}.rounded-lg{border-radius:0.5rem}.rounded-xl{border-radius:0.75rem}.rounded-bl{border-bottom-left-radius:0.25rem}.border{border-width:1px}.border-2{border-width:2px}.border-x{border-left-width:1px;border-right-width:1px}.border-b{border-bottom-width:1px}.border-l-2{border-left-width:2px}.border-t{border-top-width:1px}.border-t-4{border-top-width:4px}.border-none{border-style:none}.border-blue-100{--tw-border-opacity:1;border-color:rgb(219 234 254 / var(--tw-border-opacity, 1))}.border-blue-200{--tw-border-opacity:1;border-color:rgb(191 219 254 / var(--tw-border-opacity, 1))}.border-gray-200{--tw-border-opacity:1;border-color:rgb(229 231 235 / var(--tw-border-opacity, 1))}.border-green-200{--tw-border-opacity:1;border-color:rgb(187 247 208 / var(--tw-border-opacity, 1))}.border-indigo-100{--tw-border-opacity:1;border-color:rgb(224 231 255 / var(--tw-border-opacity, 1))}.border-indigo-500{--tw-border-opacity:1;border-color:rgb(99 102 241 / var(--tw-border-opacity, 1))}.border-orange-200{--tw-border-opacity:1;border-color:rgb(254 215 170 / var(--tw-border-opacity, 1))}.border-purple-100{--tw-border-opacity:1;border-color:rgb(243 232 255 / var(--tw-border-opacity, 1))}.border-red-200{--tw-border-opacity:1;border-color:rgb(254 202 202 / var(--tw-border-opacity, 1))}.border-slate-200{--tw-border-opacity:1;border-color:rgb(226 232 240 / var(--tw-border-opacity, 1))}.border-slate-700{--tw-border-opacity:1;border-color:rgb(51 65 85 / var(--tw-border-opacity, 1))}.border-teal-100{--tw-border-opacity:1;border-color:rgb(204 251 241 / var(--tw-border-opacity, 1))}.border-white{--tw-border-opacity:1;border-color:rgb(255 255 255 / var(--tw-border-opacity, 1))}.border-l-orange-500{--tw-border-opacity:1;border-left-color:rgb(249 115 22 / var(--tw-border-opacity, 1))}.bg-blue-100{--tw-bg-opacity:1;background-color:rgb(219 234 254 / var(--tw-bg-opacity, 1))}.bg-blue-50{--tw-bg-opacity:1;background-color:rgb(239 246 255 / var(--tw-bg-opacity, 1))}.bg-blue-500{--tw-bg-opacity:1;background-color:rgb(59 130 246 / var(--tw-bg-opacity, 1))}.bg-blue-600{--tw-bg-opacity:1;background-color:rgb(37 99 235 / var(--tw-bg-opacity, 1))}.bg-gray-50{--tw-bg-opacity:1;background-color:rgb(249 250 251 / var(--tw-bg-opacity, 1))}.bg-green-100{--tw-bg-opacity:1;background-color:rgb(220 252 231 / var(--tw-bg-opacity, 1))}.bg-green-50{--tw-bg-opacity:1;background-color:rgb(240 253 244 / var(--tw-bg-opacity, 1))}.bg-green-500{--tw-bg-opacity:1;background-color:rgb(34 197 94 / var(--tw-bg-opacity, 1))}.bg-indigo-500{--tw-bg-opacity:1;background-color:rgb(99 102 241 / var(--tw-bg-opacity, 1))}.bg-indigo-600{--tw-bg-opacity:1;background-color:rgb(79 70 229 / var(--tw-bg-opacity, 1))}.bg-indigo-700{--tw-bg-opacity:1;background-color:rgb(67 56 202 / var(--tw-bg-opacity, 1))}.bg-orange-50{--tw-bg-opacity:1;background-color:rgb(255 247 237 / var(--tw-bg-opacity, 1))}.bg-orange-500{--tw-bg-opacity:1;background-color:rgb(249 115 22 / var(--tw-bg-opacity, 1))}.bg-orange-600{--tw-bg-opacity:1;background-color:rgb(234 88 12 / var(--tw-bg-opacity, 1))}.bg-pink-600{--tw-bg-opacity:1;background-color:rgb(219 39 119 / var(--tw-bg-opacity, 1))}.bg-purple-50{--tw-bg-opacity:1;background-color:rgb(250 245 255 / var(--tw-bg-opacity, 1))}.bg-red-50{--tw-bg-opacity:1;background-color:rgb(254 242 242 / var(--tw-bg-opacity, 1))}.bg-red-500{--tw-bg-opacity:1;background-color:rgb(239 68 68 / var(--tw-bg-opacity, 1))}.bg-red-600{--tw-bg-opacity:1;background-color:rgb(220 38 38 / var(--tw-bg-opacity, 1))}.bg-slate-50{--tw-bg-opacity:1;background-color:rgb(248 250 252 / var(--tw-bg-opacity, 1))}.bg-slate-600{--tw-bg-opacity:1;background-color:rgb(71 85 105 / var(--tw-bg-opacity, 1))}.bg-slate-900{--tw-bg-opacity:1;background-color:rgb(15 23 42 / var(--tw-bg-opacity, 1))}.bg-teal-50{--tw-bg-opacity:1;background-color:rgb(240 253 250 / var(--tw-bg-opacity, 1))}.bg-teal-500{--tw-bg-opacity:1;background-color:rgb(20 184 166 / var(--tw-bg-opacity, 1))}.bg-teal-600{--tw-bg-opacity:1;background-color:rgb(13 148 136 / var(--tw-bg-opacity, 1))}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity, 1))}.bg-yellow-100{--tw-bg-opacity:1;background-color:rgb(254 249 195 / var(--tw-bg-opacity, 1))}.bg-yellow-500{--tw-bg-opacity:1;background-color:rgb(234 179 8 / var(--tw-bg-opacity, 1))}.p-4{padding:1rem}.p-5{padding:1.25rem}.p-6{padding:1.5rem}.px-1{padding-left:0.25rem;padding-right:0.25rem}.px-2{padding-left:0.5rem;padding-right:0.5rem}.px-3{padding-left:0.75rem;padding-right:0.75rem}.px-4{padding-left:1rem;padding-right:1rem}.py-0\.5{padding-top:0.125rem;padding-bottom:0.125rem}.py-1{padding-top:0.25rem;padding-bottom:0.25rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.py-3{padding-top:0.75rem;padding-bottom:0.75rem}.py-8{padding-top:2rem;padding-bottom:2rem}.pb-2{padding-bottom:0.5rem}.pl-2{padding-left:0.5rem}.pr-2{padding-right:0.5rem}.text-left{text-align:left}.text-center{text-align:center}.text-right{text-align:right}.text-2xl{font-size:1.5rem;line-height:2rem}.text-3xl{font-size:1.875rem;line-height:2.25rem}.text-4xl{font-size:2.25rem;line-height:2.5rem}.text-\[10px\]{font-size:10px}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-xs{font-size:0.75rem;line-height:1rem}.font-bold{font-weight:700}.font-medium{font-weight:500}.font-semibold{font-weight:600}.uppercase{text-transform:uppercase}.italic{font-style:italic}.leading-relaxed{line-height:1.625}.tracking-wide{letter-spacing:0.025em}.text-blue-600{--tw-text-opacity:1;color:rgb(37 99 235 / var(--tw-text-opacity, 1))}.text-blue-700{--tw-text-opacity:1;color:rgb(29 78 216 / var(--tw-text-opacity, 1))}.text-blue-800{--tw-text-opacity:1;color:rgb(30 64 175 / var(--tw-text-opacity, 1))}.text-gray-200{--tw-text-opacity:1;color:rgb(229 231 235 / var(--tw-text-opacity, 1))}.text-gray-400{--tw-text-opacity:1;color:rgb(156 163 175 / var(--tw-text-opacity, 1))}.text-gray-500{--tw-text-opacity:1;color:rgb(107 114 128 / var(--tw-text-opacity, 1))}.text-gray-600{--tw-text-opacity:1;color:rgb(75 85 99 / var(--tw-text-opacity, 1))}.text-gray-700{--tw-text-opacity:1;color:rgb(55 65 81 / var(--tw-text-opacity, 1))}.text-green-600{--tw-text-opacity:1;color:rgb(22 163 74 / var(--tw-text-opacity, 1))}.text-green-700{--tw-text-opacity:1;color:rgb(21 128 61 / var(--tw-text-opacity, 1))}.text-green-800{--tw-text-opacity:1;color:rgb(22 101 52 / var(--tw-text-opacity, 1))}.text-indigo-700{--tw-text-opacity:1;color:rgb(67 56 202 / var(--tw-text-opacity, 1))}.text-indigo-800{--tw-text-opacity:1;color:rgb(55 48 163 / var(--tw-text-opacity, 1))}.text-orange-600{--tw-text-opacity:1;color:rgb(234 88 12 / var(--tw-text-opacity, 1))}.text-orange-700{--tw-text-opacity:1;color:rgb(194 65 12 / var(--tw-text-opacity, 1))}.text-orange-800{--tw-text-opacity:1;color:rgb(154 52 18 / var(--tw-text-opacity, 1))}.text-pink-700{--tw-text-opacity:1;color:rgb(190 24 93 / var(--tw-text-opacity, 1))}.text-purple-600{--tw-text-opacity:1;color:rgb(147 51 234 / var(--tw-text-opacity, 1))}.text-purple-700{--tw-text-opacity:1;color:rgb(126 34 206 / var(--tw-text-opacity, 1))}.text-purple-800{--tw-text-opacity:1;color:rgb(107 33 168 / var(--tw-text-opacity, 1))}.text-red-600{--tw-text-opacity:1;color:rgb(220 38 38 / var(--tw-text-opacity, 1))}.text-red-700{--tw-text-opacity:1;color:rgb(185 28 28 / var(--tw-text-opacity, 1))}.text-slate-300{--tw-text-opacity:1;color:rgb(203 213 225 / var(--tw-text-opacity, 1))}.text-slate-400{--tw-text-opacity:1;color:rgb(148 163 184 / var(--tw-text-opacity, 1))}.text-slate-500{--tw-text-opacity:1;color:rgb(100 116 139 / var(--tw-text-opacity, 1))}.text-slate-700{--tw-text-opacity:1;color:rgb(51 65 85 / var(--tw-text-opacity, 1))}.text-slate-800{--tw-text-opacity:1;color:rgb(30 41 59 / var(--tw-text-opacity, 1))}.text-slate-900{--tw-text-opacity:1;color:rgb(15 23 42 / var(--tw-text-opacity, 1))}.text-teal-600{--tw-text-opacity:1;color:rgb(13 148 136 / var(--tw-text-opacity, 1))}.text-teal-700{--tw-text-opacity:1;color:rgb(15 118 110 / var(--tw-text-opacity, 1))}.text-teal-800{--tw-text-opacity:1;color:rgb(17 94 89 / var(--tw-text-opacity, 1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.text-yellow-600{--tw-text-opacity:1;color:rgb(202 138 4 / var(--tw-text-opacity, 1))}.text-yellow-700{--tw-text-opacity:1;color:rgb(161 98 7 / var(--tw-text-opacity, 1))}.text-yellow-800{--tw-text-opacity:1;color:rgb(133 77 14 / var(--tw-text-opacity, 1))}.shadow-sm{--tw-shadow:0 1px 2px 0 rgb(0 0 0 / 0.05);--tw-shadow-colored:0 1px 2px 0 var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.ring-2{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)}.ring-blue-100{--tw-ring-opacity:1;--tw-ring-color:rgb(219 234 254 / var(--tw-ring-opacity, 1))}.ring-indigo-100{--tw-ring-opacity:1;--tw-ring-color:rgb(224 231 255 / var(--tw-ring-opacity, 1))}.ring-teal-100{--tw-ring-opacity:1;--tw-ring-color:rgb(204 251 241 / var(--tw-ring-opacity, 1))}.transition-colors{transition-property:color, background-color, border-color, fill, stroke, -webkit-text-decoration-color;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.transition-shadow{transition-property:box-shadow;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.hover\:border-blue-400:hover{--tw-border-opacity:1;border-color:rgb(96 165 250 / var(--tw-border-opacity, 1))}.hover\:border-green-400:hover{--tw-border-opacity:1;border-color:rgb(74 222 128 / var(--tw-border-opacity, 1))}.hover\:border-yellow-400:hover{--tw-border-opacity:1;border-color:rgb(250 204 21 / var(--tw-border-opacity, 1))}.hover\:bg-blue-700:hover{--tw-bg-opacity:1;background-color:rgb(29 78 216 / var(--tw-bg-opacity, 1))}.hover\:shadow-md:hover{--tw-shadow:0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}@media (min-width: 640px){.sm\:px-6{padding-left:1.5rem;padding-right:1.5rem}}@media (min-width: 768px){.md\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.md\:grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}.md\:grid-cols-4{grid-template-columns:repeat(4, minmax(0, 1fr))}}@media (min-width: 1024px){.lg\:col-span-1{grid-column:span 1 / span 1}.lg\:col-span-2{grid-column:span 2 / span 2}.lg\:grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}.lg\:px-8{padding-left:2rem;padding-right:2rem}}</style></head>
 <body>
-
-    <!-- Header -->
-    <header class="bg-white border-b border-slate-200 sticky top-0 z-50 backdrop-blur-md bg-opacity-90">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-            <div class="flex items-center gap-4">
-                <div class="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-200">
-                    <span class="material-symbols-outlined text-white text-3xl">analytics</span>
+    <!-- Navbar -->
+    <nav class="bg-white border-b border-gray-200 sticky top-0 z-50 no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-blue-600 text-3xl">analytics</span>
+                    <div>
+                        <h1 class="font-bold text-lg text-slate-800">Law Survey Analytics 2025</h1>
+                        <p class="text-xs text-slate-500">รายงานวิเคราะห์เชิงสถิติและคุณภาพฉบับสมบูรณ์ (N=180)</p>
+                    </div>
                 </div>
-                <div>
-                    <h1 class="text-xl font-bold text-slate-900 leading-tight">Thai Numerals Policy Analytics</h1>
-                    <p class="text-xs text-slate-500 font-medium">ข้อมูลฉบับสมบูรณ์ (Comprehensive Report) • 164 Records</p>
-                </div>
-            </div>
-            <div class="flex items-center gap-3">
-                <button onclick="exportReport()" class="hidden md:flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-sm font-semibold transition">
-                    <span class="material-symbols-outlined text-sm">download</span>
-                    Save Report
-                </button>
-                <button onclick="shareDashboard()" class="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-semibold shadow-md shadow-blue-200 transition">
-                    <span class="material-symbols-outlined text-sm">share</span>
-                    Share Link
+                <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 text-sm font-medium transition-colors shadow-sm" onclick="saveReport()">
+                    <span class="material-symbols-outlined text-sm">save_alt</span> บันทึกรายงาน (.html)
                 </button>
             </div>
         </div>
-    </header>
+    </nav>
 
-    <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-
-        <!-- 1. Executive KPIs -->
-        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 animate-fade-in">
-            <!-- Total Respondents -->
-            <div class="card border-l-4 border-blue-500 flex flex-col justify-between">
-                <div>
-                    <p class="text-slate-500 text-sm font-semibold uppercase tracking-wider">Total Respondents</p>
-                    <div class="mt-2 flex items-baseline gap-2">
-                        <h2 class="text-4xl font-bold text-slate-800">164</h2>
-                        <span class="text-sm font-medium text-slate-400">หน่วยงาน</span>
-                    </div>
-                </div>
-                <div class="mt-4 flex items-center gap-2 text-xs font-medium text-blue-700 bg-blue-50 w-fit px-2 py-1 rounded">
-                    <span class="material-symbols-outlined text-sm">domain</span>
-                    ครอบคลุมทั้ง รัฐ/เอกชน/รัฐวิสาหกิจ
-                </div>
+        
+        <!-- 1. Executive Summary -->
+        <section id="sec1">
+            <div class="section-header border-none">
+                <span class="material-symbols-outlined text-blue-600 text-3xl">dashboard</span>
+                <h2 class="text-2xl font-bold text-slate-800">1. บทสรุปผู้บริหาร (Executive Summary)</h2>
             </div>
-
-            <!-- Critical Issue -->
-            <div class="card border-l-4 border-red-500 flex flex-col justify-between">
-                <div>
-                    <p class="text-slate-500 text-sm font-semibold uppercase tracking-wider">Critical Issue Sentiment</p>
-                    <div class="mt-2 flex items-baseline gap-2">
-                        <h2 class="text-4xl font-bold text-red-600" id="kpi-critical-pct">19%</h2>
-                        <span class="text-sm font-medium text-slate-400">ระบุปัญหาวิกฤต</span>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="card bg-blue-50 border-blue-200">
+                    <p class="text-xs font-bold text-blue-600 uppercase">Valid Respondents</p>
+                    <div class="flex items-end gap-2 mt-2">
+                        <span class="text-4xl font-bold text-slate-800">180</span>
+                        <span class="text-xs text-slate-500 mb-1">คน</span>
                     </div>
+                    <p class="text-xs text-slate-500 mt-2">100% Response Rate</p>
                 </div>
-                <div class="mt-4 text-xs text-red-600 bg-red-50 px-2 py-1 rounded">
-                    กลุ่ม IT &amp; Security กังวลสูงสุด
-                </div>
-            </div>
-
-            <!-- Technical Standard Support -->
-            <div class="card border-l-4 border-emerald-500 flex flex-col justify-between">
-                <div>
-                    <p class="text-slate-500 text-sm font-semibold uppercase tracking-wider">Digital Standard (Cat 1)</p>
-                    <div class="mt-2 flex items-baseline gap-2">
-                        <h2 class="text-4xl font-bold text-emerald-600" id="kpi-standard-pct">92%</h2>
-                        <span class="text-sm font-medium text-slate-400">เห็นด้วยใช้อารบิก 100%</span>
+                <div class="card bg-red-50 border-red-200">
+                    <p class="text-xs font-bold text-red-600 uppercase">System Failure Rate</p>
+                    <div class="flex items-end gap-2 mt-2">
+                        <span class="text-4xl font-bold text-slate-800">89.4%</span>
                     </div>
+                    <p class="text-xs text-slate-500 mt-2">พบวิกฤตความเข้ากันได้</p>
                 </div>
-                <div class="mt-4 text-xs text-emerald-700 bg-emerald-50 px-2 py-1 rounded">
-                    ในงาน Database, API, Filename
-                </div>
-            </div>
-
-            <!-- Top Pain Point -->
-            <div class="card border-l-4 border-orange-500 flex flex-col justify-between">
-                <div>
-                    <p class="text-slate-500 text-sm font-semibold uppercase tracking-wider">Top Pain Point</p>
-                    <div class="mt-2">
-                        <h2 class="text-2xl font-bold text-slate-800 truncate" id="kpi-top-pain">Data Cleansing (Redundancy)</h2>
+                <div class="card bg-green-50 border-green-200">
+                    <p class="text-xs font-bold text-green-600 uppercase">Change Consensus</p>
+                    <div class="flex items-end gap-2 mt-2">
+                        <span class="text-4xl font-bold text-slate-800">95.6%</span>
                     </div>
+                    <p class="text-xs text-slate-500 mt-2">เห็นด้วยให้ใช้อารบิก</p>
                 </div>
-                <div class="mt-4 text-xs text-orange-700 bg-orange-50 px-2 py-1 rounded">
-                    กระทบประสิทธิภาพรายวัน
+                <div class="card bg-orange-50 border-orange-200">
+                    <p class="text-xs font-bold text-orange-600 uppercase">Top Obstacle</p>
+                    <div class="flex items-end gap-2 mt-2">
+                        <span class="text-xl font-bold text-slate-800">Mindset</span>
+                        <span class="text-sm text-slate-500">4.8/5.0</span>
+                    </div>
+                    <p class="text-xs text-slate-500 mt-2">ความคุ้นชินและทัศนคติ</p>
                 </div>
             </div>
         </section>
 
-        <!-- Navigation Tabs -->
-        <div class="border-b border-slate-200 overflow-x-auto">
-            <nav class="flex space-x-2" aria-label="Tabs">
-                <button onclick="switchTab('overview')" id="tab-overview" class="tab-btn">ภาพรวม (Overview)</button>
-                <button onclick="switchTab('technical')" id="tab-technical" class="tab-btn">ปัญหาทางเทคนิค (Technical Deep Dive)</button>
-                <button onclick="switchTab('policy')" id="tab-policy" class="tab-btn active">มาตรฐาน 4 ประเภท (Standards)</button>
-                <button onclick="switchTab('strategy')" id="tab-strategy" class="tab-btn">กลยุทธ์และข้อเสนอแนะ (Strategy)</button>
-                <button onclick="switchTab('data')" id="tab-data" class="tab-btn">ฐานข้อมูลดิบ (Raw Data)</button>
-            </nav>
-        </div>
-
-        <!-- TAB CONTENT: OVERVIEW -->
-        <div id="view-overview" class="space-y-6 animate-fade-in hidden">
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- Chart: Sentiment Breakdown -->
-                <div class="card lg:col-span-1">
-                    <h3 class="font-bold text-slate-800 mb-4">ระดับความรุนแรงของปัญหา (Sentiment)</h3>
-                    <div class="relative h-64">
-                        <canvas id="chart-sentiment" width="225" height="170" style="display: block; box-sizing: border-box; height: 256px; width: 338.3px;"></canvas>
-                    </div>
-                </div>
-                <!-- Chart: Role Demographics -->
-                <div class="card lg:col-span-1">
-                    <h3 class="font-bold text-slate-800 mb-4">กลุ่มผู้ให้ข้อมูล (Roles)</h3>
-                    <div class="relative h-64">
-                        <canvas id="chart-roles" width="225" height="170" style="display: block; box-sizing: border-box; height: 256px; width: 338.3px;"></canvas>
-                    </div>
-                </div>
-                <!-- Top Agencies -->
-                <div class="card lg:col-span-1 overflow-y-auto max-h-[340px]">
-                    <h3 class="font-bold text-slate-800 mb-4">Top Participating Agencies</h3>
-                    <ul class="space-y-3" id="list-agencies">
-                <li class="flex justify-between items-center text-sm border-b border-slate-100 pb-2">
-                    <span class="text-slate-600 truncate w-3/4" title="ธนาคารแห่งประเทศไทย">1. ธนาคารแห่งประเทศไทย</span>
-                    <span class="font-bold text-slate-800 bg-slate-100 px-2 rounded">23</span>
-                </li>
-            
-                <li class="flex justify-between items-center text-sm border-b border-slate-100 pb-2">
-                    <span class="text-slate-600 truncate w-3/4" title="กระทรวงดิจิทัลเพื่อเศรษฐกิจและสังคม">2. กระทรวงดิจิทัลเพื่อเศรษฐกิจและสังคม</span>
-                    <span class="font-bold text-slate-800 bg-slate-100 px-2 rounded">20</span>
-                </li>
-            
-                <li class="flex justify-between items-center text-sm border-b border-slate-100 pb-2">
-                    <span class="text-slate-600 truncate w-3/4" title="สำนักงานพัฒนาธุรกรรมทางอิเล็กทรอนิกส์ (ETDA)">3. สำนักงานพัฒนาธุรกรรมทางอิเล็กทรอนิกส์ (ETDA)</span>
-                    <span class="font-bold text-slate-800 bg-slate-100 px-2 rounded">19</span>
-                </li>
-            
-                <li class="flex justify-between items-center text-sm border-b border-slate-100 pb-2">
-                    <span class="text-slate-600 truncate w-3/4" title="สำนักงานคณะกรรมการการรักษาความมั่นคงปลอดภัยไซเบอร์แห่งชาติ (สกมช.)">4. สำนักงานคณะกรรมการการรักษาความมั่นคงปลอดภัยไซเบอร์แห่งชาติ (สกมช.)</span>
-                    <span class="font-bold text-slate-800 bg-slate-100 px-2 rounded">18</span>
-                </li>
-            
-                <li class="flex justify-between items-center text-sm border-b border-slate-100 pb-2">
-                    <span class="text-slate-600 truncate w-3/4" title="สำนักงานพัฒนารัฐบาลดิจิทัล (DGA)">5. สำนักงานพัฒนารัฐบาลดิจิทัล (DGA)</span>
-                    <span class="font-bold text-slate-800 bg-slate-100 px-2 rounded">16</span>
-                </li>
-            
-                <li class="flex justify-between items-center text-sm border-b border-slate-100 pb-2">
-                    <span class="text-slate-600 truncate w-3/4" title="โรงพยาบาลศิริราช">6. โรงพยาบาลศิริราช</span>
-                    <span class="font-bold text-slate-800 bg-slate-100 px-2 rounded">15</span>
-                </li>
-            
-                <li class="flex justify-between items-center text-sm border-b border-slate-100 pb-2">
-                    <span class="text-slate-600 truncate w-3/4" title="สำนักนายกรัฐมนตรี">7. สำนักนายกรัฐมนตรี</span>
-                    <span class="font-bold text-slate-800 bg-slate-100 px-2 rounded">15</span>
-                </li>
-            
-                <li class="flex justify-between items-center text-sm border-b border-slate-100 pb-2">
-                    <span class="text-slate-600 truncate w-3/4" title="กรมการปกครอง">8. กรมการปกครอง</span>
-                    <span class="font-bold text-slate-800 bg-slate-100 px-2 rounded">15</span>
-                </li>
-            
-                <li class="flex justify-between items-center text-sm border-b border-slate-100 pb-2">
-                    <span class="text-slate-600 truncate w-3/4" title="AIS / True / DTAC (Telco)">9. AIS / True / DTAC (Telco)</span>
-                    <span class="font-bold text-slate-800 bg-slate-100 px-2 rounded">12</span>
-                </li>
-            
-                <li class="flex justify-between items-center text-sm border-b border-slate-100 pb-2">
-                    <span class="text-slate-600 truncate w-3/4" title="จุฬาลงกรณ์มหาวิทยาลัย">10. จุฬาลงกรณ์มหาวิทยาลัย</span>
-                    <span class="font-bold text-slate-800 bg-slate-100 px-2 rounded">11</span>
-                </li>
-            </ul>
-                </div>
+        <!-- 2. Demographics -->
+        <section class="card" id="sec2">
+            <div class="section-header">
+                <div class="section-number">2</div>
+                <h3 class="section-title">ข้อมูลประชากรและกลุ่มตัวอย่าง (Demographics Statistics)</h3>
             </div>
-            
-            <!-- Software Ecosystem Impact -->
-            <div class="card">
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
-                    <div>
-                        <h3 class="font-bold text-lg text-slate-800">ระบบนิเวศซอฟต์แวร์ (Software Ecosystem)</h3>
-                        <p class="text-sm text-slate-500">ความสัมพันธ์ระหว่างซอฟต์แวร์ที่ใช้กับความถี่ในการพบปัญหา</p>
-                    </div>
-                    <div class="flex gap-2">
-                        <span class="badge badge-blue">Microsoft Office (65%)</span>
-                        <span class="badge badge-orange">e-Saraban (20%)</span>
-                        <span class="badge badge-green">Google Workspace (10%)</span>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-2">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full text-sm text-left">
+                            <thead class="bg-gray-50 text-gray-500 font-medium">
+                                <tr><th>กลุ่มหน่วยงาน (Cluster)</th><th>หน่วยงาน (Entity)</th><th class="text-right">จำนวน (N)</th><th class="text-right">สัดส่วน (%)</th></tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100">
+                                <tr>
+                                    <td class="px-4 py-3 font-semibold text-blue-700">1. ความมั่นคง</td>
+                                    <td>สกมช. (115), TIJ (3), คปอ. (2), ศวจ. (1)</td>
+                                    <td class="text-right font-bold">121</td>
+                                    <td class="text-right">67.22%</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-semibold text-teal-700">2. สาธารณสุข</td>
+                                    <td>กรมควบคุมโรค (3), รพ. (4), สธ. (1)</td>
+                                    <td class="text-right font-bold">8</td>
+                                    <td class="text-right">4.44%</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-semibold text-purple-700">3. เอกชน/อื่นๆ</td>
+                                    <td>MFEC (1), ไม่ระบุ/อื่นๆ (50)</td>
+                                    <td class="text-right font-bold">51</td>
+                                    <td class="text-right">28.34%</td>
+                                </tr>
+                                <tr class="bg-slate-50 font-bold">
+                                    <td class="px-4 py-3 text-right" colspan="2">รวมทั้งสิ้น (Grand Total)</td>
+                                    <td class="text-right">180</td>
+                                    <td class="text-right">100.00%</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-                <div class="relative h-80">
-                    <canvas id="chart-software-impact" width="776" height="213" style="display: block; box-sizing: border-box; height: 320px; width: 1165px;"></canvas>
-                </div>
-                <p class="mt-4 text-xs text-center text-slate-400">*กราฟแสดงค่าเฉลี่ยความถี่ของปัญหา (Score 1-5) แยกตามซอฟต์แวร์หลักที่หน่วยงานใช้</p>
-            </div>
-        </div>
-
-        <!-- TAB CONTENT: TECHNICAL DEEP DIVE -->
-        <div id="view-technical" class="space-y-6 animate-fade-in hidden">
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- Radar Chart: Impact Areas -->
-                <div class="card lg:col-span-1">
-                    <h3 class="font-bold text-slate-800 mb-4">มิติผลกระทบ (Impact Areas)</h3>
-                    <p class="text-xs text-slate-500 mb-4">เปรียบเทียบผลกระทบใน 5 ด้านหลัก</p>
-                    <div class="relative h-72">
-                        <canvas id="chart-radar-impact" height="192" style="display: block; box-sizing: border-box; height: 288px; width: 338.3px;" width="225"></canvas>
-                    </div>
-                </div>
-                <!-- Bar Chart: Pain Points Ranking -->
-                <div class="card lg:col-span-2">
-                    <h3 class="font-bold text-slate-800 mb-4">10 อันดับปัญหาทางเทคนิค (Pain Points Ranking)</h3>
-                    <div class="relative h-72">
-                        <canvas id="chart-painpoints" height="192" style="display: block; box-sizing: border-box; height: 288px; width: 751.7px;" width="501"></canvas>
+                <div class="lg:col-span-1 flex justify-center items-center">
+                    <div style="width: 220px; height: 220px;">
+                        <canvas id="demographicChart" width="220" height="220" style="display: block; box-sizing: border-box; height: 220px; width: 220px;"></canvas>
                     </div>
                 </div>
             </div>
+        </section>
 
-            <!-- Insight Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="bg-red-50 border border-red-100 p-5 rounded-xl">
-                    <div class="flex items-center gap-2 mb-2">
-                        <span class="material-symbols-outlined text-red-600">security</span>
-                        <h4 class="font-bold text-red-900">Cybersecurity Risk</h4>
+        <!-- 3. Ecosystem Analysis -->
+        <section class="card" id="sec3">
+            <div class="section-header text-indigo-700">
+                <div class="section-number bg-indigo-600">3</div>
+                <h3 class="section-title">วิเคราะห์ระบบนิเวศซอฟต์แวร์ (Software Ecosystem Stats)</h3>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h4 class="font-bold text-gray-700 mb-4 text-sm uppercase">อัตราความล้มเหลว (Failure Rate by System)</h4>
+                    <div class="space-y-4">
+                        <!-- Stat Item -->
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span class="font-bold text-red-700 flex items-center gap-2"><span class="material-symbols-outlined text-sm">document_scanner</span> OCR Accuracy</span>
+                                <span class="font-bold text-red-700">96.8% Fail</span>
+                            </div>
+                            <div class="stat-bar-bg"><div class="stat-bar-fill bg-red-600" style="width: 96.8%"></div></div>
+                            <p class="text-xs text-gray-500 mt-1">อ่านค่าผิดพลาดสูงสุด (๐=O, ๑=I) ต้องแก้ไข Manual</p>
+                        </div>
+                        <!-- Stat Item -->
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span class="font-bold text-orange-700 flex items-center gap-2"><span class="material-symbols-outlined text-sm">calculate</span> Excel / Calculation</span>
+                                <span class="font-bold text-orange-700">92.2% Fail</span>
+                            </div>
+                            <div class="stat-bar-bg"><div class="stat-bar-fill bg-orange-500" style="width: 92.2%"></div></div>
+                            <p class="text-xs text-gray-500 mt-1">สูตรคำนวณ Error (#VALUE!), กราฟไม่แสดงผล</p>
+                        </div>
+                        <!-- Stat Item -->
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span class="font-bold text-yellow-700 flex items-center gap-2"><span class="material-symbols-outlined text-sm">database</span> Database Sorting</span>
+                                <span class="font-bold text-yellow-700">88.5% Fail</span>
+                            </div>
+                            <div class="stat-bar-bg"><div class="stat-bar-fill bg-yellow-500" style="width: 88.5%"></div></div>
+                            <p class="text-xs text-gray-500 mt-1">เรียงลำดับข้อมูลผิดเพี้ยนตาม ASCII Code</p>
+                        </div>
                     </div>
-                    <p class="text-sm text-red-800 leading-relaxed">
-                        85% ของเจ้าหน้าที่ Security ระบุว่า <strong>"Log Timestamp"</strong> และ <strong>"Auth Failure"</strong> จากเลขไทย เป็นความเสี่ยงระดับสูงที่ไม่สามารถยอมรับได้ เนื่องจากขัดขวางระบบตรวจจับภัยคุกคามอัตโนมัติ (SIEM)
-                    </p>
                 </div>
-                <div class="bg-orange-50 border border-orange-100 p-5 rounded-xl">
-                    <div class="flex items-center gap-2 mb-2">
-                        <span class="material-symbols-outlined text-orange-600">schedule</span>
-                        <h4 class="font-bold text-orange-900">Efficiency Loss</h4>
-                    </div>
-                    <p class="text-sm text-orange-800 leading-relaxed">
-                        เจ้าหน้าที่ธุรการและ Data Analyst เสียเวลาเฉลี่ย <strong>15-30 นาที/วัน</strong> ในการทำ Data Cleansing แปลงเลขไทยเป็นอารบิกก่อนนำข้อมูลไปใช้งานต่อ
-                    </p>
-                </div>
-                <div class="bg-blue-50 border border-blue-100 p-5 rounded-xl">
-                    <div class="flex items-center gap-2 mb-2">
-                        <span class="material-symbols-outlined text-blue-600">visibility</span>
-                        <h4 class="font-bold text-blue-900">Visual Ambiguity</h4>
-                    </div>
-                    <p class="text-sm text-blue-800 leading-relaxed">
-                        พบความผิดพลาดจาก Human Error ในการอ่านตัวเลข ๐ (ศูนย์) กับ O (โอ) และ ๑ (หนึ่ง) กับ l (แอล) บ่อยครั้งในเอกสารสแกน (OCR)
-                    </p>
+                <div>
+                    <canvas id="ecosystemChart" width="567" height="283" style="display: block; box-sizing: border-box; height: 283.5px; width: 567px;"></canvas>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- TAB CONTENT: POLICY STANDARDS -->
-        <div id="view-policy" class="space-y-6 animate-fade-in">
-            <div class="card">
-                <h3 class="font-bold text-lg text-slate-800 mb-6">ความเห็นต่อการจำแนก 4 ประเภท (Standards Consensus)</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <!-- Cat 1 -->
-                    <div class="bg-slate-50 p-4 rounded-xl text-center border-t-4 border-blue-500">
-                        <h4 class="font-bold text-slate-700">Digital Standard</h4>
-                        <p class="text-xs text-slate-400 mb-3">Database, API, Filename</p>
-                        <div class="h-32 relative"><canvas id="chart-cat1" height="85" style="display: block; box-sizing: border-box; height: 128px; width: 247.3px;" width="164"></canvas></div>
-                        <p class="mt-2 text-sm font-bold text-blue-600">92% Arabic Only</p>
-                    </div>
-                    <!-- Cat 2 -->
-                    <div class="bg-slate-50 p-4 rounded-xl text-center border-t-4 border-red-500">
-                        <h4 class="font-bold text-slate-700">Cybersecurity</h4>
-                        <p class="text-xs text-slate-400 mb-3">Logs, Incident ID, IP</p>
-                        <div class="h-32 relative"><canvas id="chart-cat2" height="85" style="display: block; box-sizing: border-box; height: 128px; width: 247.3px;" width="164"></canvas></div>
-                        <p class="mt-2 text-sm font-bold text-red-600">96% Arabic Only</p>
-                    </div>
-                    <!-- Cat 3 -->
-                    <div class="bg-slate-50 p-4 rounded-xl text-center border-t-4 border-yellow-500">
-                        <h4 class="font-bold text-slate-700">Safety Critical</h4>
-                        <p class="text-xs text-slate-400 mb-3">Medical, GPS, SCADA</p>
-                        <div class="h-32 relative"><canvas id="chart-cat3" height="85" style="display: block; box-sizing: border-box; height: 128px; width: 247.3px;" width="164"></canvas></div>
-                        <p class="mt-2 text-sm font-bold text-yellow-600">88% Arabic Only</p>
-                    </div>
-                    <!-- Cat 4 -->
-                    <div class="bg-slate-50 p-4 rounded-xl text-center border-t-4 border-purple-500">
-                        <h4 class="font-bold text-slate-700">General Comm.</h4>
-                        <p class="text-xs text-slate-400 mb-3">หนังสือราชการ, พิธีการ</p>
-                        <div class="h-32 relative"><canvas id="chart-cat4" height="85" style="display: block; box-sizing: border-box; height: 128px; width: 247.3px;" width="164"></canvas></div>
-                        <p class="mt-2 text-sm font-bold text-purple-600">65% Mixed/Thai</p>
-                    </div>
-                </div>
+        <!-- 4. Impact Assessment -->
+        <section class="card" id="sec4">
+            <div class="section-header text-pink-700">
+                <div class="section-number bg-pink-600">4</div>
+                <h3 class="section-title">ประเมินพื้นที่ผลกระทบ (Impact Assessment Matrix)</h3>
             </div>
-
-            <!-- Use Case Matrix Table -->
-            <div class="card overflow-hidden">
-                <div class="px-6 py-4 border-b border-slate-100 bg-slate-50">
-                    <h3 class="font-bold text-slate-800">รายละเอียดความเหมาะสมรายกรณี (Use Case Matrix)</h3>
-                </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left data-table">
-                        <thead>
-                            <tr>
-                                <th>Use Case</th>
-                                <th class="text-center w-24 text-blue-600">Arabic</th>
-                                <th class="text-center w-24 text-purple-600">Mixed</th>
-                                <th class="text-center w-24 text-pink-600">Thai</th>
-                                <th class="text-right">Recommendation</th>
-                            </tr>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="col-span-1">
+                    <table class="w-full text-sm">
+                        <thead class="bg-gray-50 text-gray-500 text-xs uppercase">
+                            <tr><th class="py-2 text-left pl-2">Area</th><th class="py-2 text-right pr-2">Severity Score (1-10)</th></tr>
                         </thead>
-                        <tbody id="table-usecases">
-                <tr>
-                    <td class="font-medium text-slate-700">Database Primary Key</td>
-                    <td class="text-center font-bold text-blue-600 bg-blue-50">98%</td>
-                    <td class="text-center font-bold text-purple-600 bg-purple-50">2%</td>
-                    <td class="text-center font-bold text-pink-600 bg-pink-50">0%</td>
-                    <td class="text-right"><span class="badge badge-blue">Arabic Only</span></td>
-                </tr>
-            
-                <tr>
-                    <td class="font-medium text-slate-700">API Parameters</td>
-                    <td class="text-center font-bold text-blue-600 bg-blue-50">100%</td>
-                    <td class="text-center font-bold text-purple-600 bg-purple-50">0%</td>
-                    <td class="text-center font-bold text-pink-600 bg-pink-50">0%</td>
-                    <td class="text-right"><span class="badge badge-blue">Arabic Only</span></td>
-                </tr>
-            
-                <tr>
-                    <td class="font-medium text-slate-700">Security Logs (Timestamp)</td>
-                    <td class="text-center font-bold text-blue-600 bg-blue-50">95%</td>
-                    <td class="text-center font-bold text-purple-600 bg-purple-50">5%</td>
-                    <td class="text-center font-bold text-pink-600 bg-pink-50">0%</td>
-                    <td class="text-right"><span class="badge badge-blue">Arabic Only</span></td>
-                </tr>
-            
-                <tr>
-                    <td class="font-medium text-slate-700">หนังสือราชการ (ภายนอก)</td>
-                    <td class="text-center font-bold text-blue-600 bg-blue-50">10%</td>
-                    <td class="text-center font-bold text-purple-600 bg-purple-50">40%</td>
-                    <td class="text-center font-bold text-pink-600 bg-pink-50">50%</td>
-                    <td class="text-right"><span class="badge badge-orange">Mixed / Thai</span></td>
-                </tr>
-            
-                <tr>
-                    <td class="font-medium text-slate-700">Presentation / Report</td>
-                    <td class="text-center font-bold text-blue-600 bg-blue-50">50%</td>
-                    <td class="text-center font-bold text-purple-600 bg-purple-50">40%</td>
-                    <td class="text-center font-bold text-pink-600 bg-pink-50">10%</td>
-                    <td class="text-right"><span class="badge badge-orange">Mixed</span></td>
-                </tr>
-            </tbody>
+                        <tbody class="divide-y divide-gray-100">
+                            <tr><td class="py-2 pl-2 font-medium">Cybersecurity</td><td class="py-2 pr-2 text-right font-bold text-red-600">9.8</td></tr>
+                            <tr><td class="py-2 pl-2 font-medium">Interoperability</td><td class="py-2 pr-2 text-right font-bold text-orange-600">9.2</td></tr>
+                            <tr><td class="py-2 pl-2 font-medium">Data Integrity</td><td class="py-2 pr-2 text-right font-bold text-yellow-600">8.7</td></tr>
+                            <tr><td class="py-2 pl-2 font-medium">Efficiency</td><td class="py-2 pr-2 text-right font-bold text-blue-600">7.5</td></tr>
+                            <tr><td class="py-2 pl-2 font-medium">UX/UI</td><td class="py-2 pr-2 text-right font-bold text-gray-600">6.5</td></tr>
+                        </tbody>
                     </table>
                 </div>
+                <div class="col-span-2 flex justify-center">
+                    <div style="max-height: 300px; width: 100%;">
+                        <canvas id="impactRadarChart" width="769" height="300" style="display: block; box-sizing: border-box; height: 300px; width: 769.3px;"></canvas>
+                    </div>
+                </div>
             </div>
-        </div>
+        </section>
 
-        <!-- TAB CONTENT: STRATEGY -->
-        <div id="view-strategy" class="hidden space-y-6 animate-fade-in">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <!-- Obstacles -->
-                <div class="card">
-                    <h3 class="font-bold text-slate-800 mb-4">อุปสรรคในการขับเคลื่อน (Key Obstacles)</h3>
-                    <div class="relative h-64">
-                        <canvas id="chart-obstacles" height="0" style="display: block; box-sizing: border-box; height: 0px; width: 0px;" width="0"></canvas>
-                    </div>
-                </div>
-                <!-- Support Needed -->
-                <div class="card">
-                    <h3 class="font-bold text-slate-800 mb-4">สิ่งที่ต้องการสนับสนุน (Support Needed)</h3>
-                    <div class="space-y-4" id="list-support">
-                <div>
-                    <div class="flex justify-between text-sm mb-1">
-                        <span class="font-medium text-slate-700">Legal Clarity (ระเบียบชัดเจน)</span>
-                        <span class="font-bold text-blue-600">92%</span>
-                    </div>
-                    <div class="w-full bg-slate-100 rounded-full h-2.5">
-                        <div class="bg-blue-600 h-2.5 rounded-full" style="width: 92%"></div>
-                    </div>
-                </div>
-            
-                <div>
-                    <div class="flex justify-between text-sm mb-1">
-                        <span class="font-medium text-slate-700">Converter Tools (เครื่องมือแปลง)</span>
-                        <span class="font-bold text-blue-600">85%</span>
-                    </div>
-                    <div class="w-full bg-slate-100 rounded-full h-2.5">
-                        <div class="bg-blue-600 h-2.5 rounded-full" style="width: 85%"></div>
-                    </div>
-                </div>
-            
-                <div>
-                    <div class="flex justify-between text-sm mb-1">
-                        <span class="font-medium text-slate-700">Training (ฝึกอบรม)</span>
-                        <span class="font-bold text-blue-600">65%</span>
-                    </div>
-                    <div class="w-full bg-slate-100 rounded-full h-2.5">
-                        <div class="bg-blue-600 h-2.5 rounded-full" style="width: 65%"></div>
-                    </div>
-                </div>
-            
-                <div>
-                    <div class="flex justify-between text-sm mb-1">
-                        <span class="font-medium text-slate-700">Budget (งบประมาณ)</span>
-                        <span class="font-bold text-blue-600">40%</span>
-                    </div>
-                    <div class="w-full bg-slate-100 rounded-full h-2.5">
-                        <div class="bg-blue-600 h-2.5 rounded-full" style="width: 40%"></div>
-                    </div>
-                </div>
+        <!-- 5. Pain Points Ranking -->
+        <section class="card" id="sec5">
+            <div class="section-header text-red-700">
+                <div class="section-number bg-red-600">5</div>
+                <h3 class="section-title">จัดลำดับความสำคัญปัญหา (Pain Points Ranking)</h3>
             </div>
-                </div>
+            <div class="mb-4 text-sm text-gray-500">
+                คำนวณคะแนนถ่วงน้ำหนัก (Weighted Score) จากความถี่ (Frequency) x ความรุนแรง (Severity) เต็ม 100 คะแนน
             </div>
+            <div class="relative h-64 w-full">
+                <canvas id="painPointsChart" width="1166" height="256" style="display: block; box-sizing: border-box; height: 256px; width: 1166px;"></canvas>
+            </div>
+        </section>
 
-            <!-- Policy Recommendations Banner -->
-            <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-slate-900 to-slate-800 p-8 text-white shadow-xl">
-                <div class="relative z-10">
-                    <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
-                        <span class="material-symbols-outlined text-yellow-400">campaign</span>
-                        ข้อเสนอแนะเชิงนโยบาย (Policy Roadmap)
-                    </h2>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        <div class="border-l-2 border-yellow-400 pl-4">
-                            <h4 class="text-yellow-400 font-bold text-lg mb-2">1. Legal Sandbox (Year 1)</h4>
-                            <p class="text-sm text-slate-300">ออกระเบียบสำนักนายกฯ "ฉบับพิเศษ" เพื่อยกเว้นการใช้เลขไทยในงานสารบรรณอิเล็กทรอนิกส์และฐานข้อมูลทางเทคนิคทั้งหมด เพื่อสร้างความชัดเจนทางกฎหมาย</p>
+        <!-- 6. Obstacles Analysis -->
+        <section class="card" id="sec6">
+            <div class="section-header text-orange-700">
+                <div class="section-number bg-orange-600">6</div>
+                <h3 class="section-title">วิเคราะห์อุปสรรค (Obstacle Analysis - Likert Scale)</h3>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="min-w-full text-sm">
+                    <thead>
+                        <tr class="bg-orange-50 text-orange-800"><th class="px-4 py-3 text-left">อุปสรรค (Obstacle)</th><th class="px-4 py-3 text-center">Mean (x̄)</th><th class="px-4 py-3 text-center">S.D.</th><th class="px-4 py-3 text-left w-1/2">ระดับความสำคัญ (Level)</th></tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100">
+                        <tr>
+                            <td class="px-4 py-3 font-medium">1. Mindset/ความคุ้นชิน</td>
+                            <td class="px-4 py-3 text-center font-bold text-red-600">4.82</td>
+                            <td class="px-4 py-3 text-center text-gray-400">0.45</td>
+                            <td class="px-4 py-3"><div class="stat-bar-bg"><div class="stat-bar-fill bg-red-600" style="width: 96.4%"></div></div></td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 font-medium">2. ระเบียบสารบรรณเดิม</td>
+                            <td class="px-4 py-3 text-center font-bold text-orange-600">4.65</td>
+                            <td class="px-4 py-3 text-center text-gray-400">0.52</td>
+                            <td class="px-4 py-3"><div class="stat-bar-bg"><div class="stat-bar-fill bg-orange-500" style="width: 93%"></div></div></td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 font-medium">3. ข้อมูลเก่า (Legacy Data)</td>
+                            <td class="px-4 py-3 text-center font-bold text-yellow-600">4.12</td>
+                            <td class="px-4 py-3 text-center text-gray-400">0.85</td>
+                            <td class="px-4 py-3"><div class="stat-bar-bg"><div class="stat-bar-fill bg-yellow-500" style="width: 82.4%"></div></div></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- 7. Deep Dive Qualitative Analysis -->
+        <section class="card border-t-4 border-indigo-500 bg-slate-50 border-x border-b border-gray-200" id="sec7">
+            <div class="section-header text-indigo-800">
+                <div class="section-number bg-indigo-700">7</div>
+                <h3 class="section-title">วิเคราะห์ความคิดเห็นเพิ่มเติมเชิงลึก (Deep Dive Qualitative Analysis)</h3>
+            </div>
+            <p class="text-sm text-gray-600 mb-6 px-1">
+                จากการวิเคราะห์ข้อความในช่อง "ความคิดเห็นเพิ่มเติม" ของผู้ตอบแบบสอบถามทั้ง 180 ท่าน พบว่ามีการแสดงความคิดเห็นรวมกว่า <strong>2,500 คำ</strong> โดยสามารถจำแนกกลุ่มเนื้อหา (Thematic Clustering) และวิเคราะห์อารมณ์ความรู้สึก (Sentiment) ได้ดังนี้:
+            </p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- 7.1 Sentiment Overview -->
+                <div class="lg:col-span-1 space-y-6">
+                    <div class="bg-white rounded-lg p-5 shadow-sm border border-indigo-100">
+                        <h4 class="font-bold text-slate-700 mb-4 text-sm uppercase tracking-wide border-b pb-2">Sentiment Distribution</h4>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex justify-between text-xs font-bold text-green-700 mb-1"><span>Supportive (สนับสนุนการเปลี่ยนแปลง)</span><span>82%</span></div>
+                                <div class="stat-bar-bg"><div class="stat-bar-fill bg-green-500" style="width: 82%"></div></div>
+                                <p class="text-[10px] text-gray-400 mt-1">"ควรเปลี่ยนทันที", "เห็นด้วยอย่างยิ่ง", "ลดภาระงาน"</p>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-xs font-bold text-red-700 mb-1"><span>Frustrated (อึดอัด/ไม่พอใจระบบเดิม)</span><span>15%</span></div>
+                                <div class="stat-bar-bg"><div class="stat-bar-fill bg-red-500" style="width: 15%"></div></div>
+                                <p class="text-[10px] text-gray-400 mt-1">"เสียเวลาแก้", "เบื่อระบบ Error", "ทำงานซ้ำซ้อน"</p>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-xs font-bold text-orange-700 mb-1"><span>Concerned (กังวล/อนุรักษ์)</span><span>3%</span></div>
+                                <div class="stat-bar-bg"><div class="stat-bar-fill bg-orange-500" style="width: 3%"></div></div>
+                                <p class="text-[10px] text-gray-400 mt-1">"กลัวเอกลักษณ์หาย", "ผู้ใหญ่ไม่ยอม"</p>
+                            </div>
                         </div>
-                        <div class="border-l-2 border-blue-400 pl-4">
-                            <h4 class="text-blue-400 font-bold text-lg mb-2">2. Migration Tools (Year 1-2)</h4>
-                            <p class="text-sm text-slate-300">ภาครัฐสนับสนุนงบประมาณจัดทำ "Thai Digit Converter API/Plugin" ให้ทุกหน่วยงานใช้ฟรี เพื่อลดภาระการแปลงข้อมูลเก่า</p>
-                        </div>
-                        <div class="border-l-2 border-emerald-400 pl-4">
-                            <h4 class="text-emerald-400 font-bold text-lg mb-2">3. Digital-First Standard (Year 3)</h4>
-                            <p class="text-sm text-slate-300">บังคับใช้มาตรฐานข้อมูลภาครัฐที่ระบุว่า "ฟิลด์ข้อมูลที่ใช้ประมวลผลต้องเป็นอารบิก 100%" (Machine Readable Format)</p>
+                    </div>
+
+                    <div class="bg-white rounded-lg p-5 shadow-sm border border-gray-200">
+                        <h4 class="font-bold text-slate-700 mb-3 text-sm uppercase">Top Keywords Frequency</h4>
+                        <div class="flex flex-wrap gap-1">
+                            <span class="keyword-chip">OCR (120)</span>
+                            <span class="keyword-chip">Excel (95)</span>
+                            <span class="keyword-chip">Log File (88)</span>
+                            <span class="keyword-chip">Shift Key (76)</span>
+                            <span class="keyword-chip">สากล (65)</span>
+                            <span class="keyword-chip">เสียเวลา (58)</span>
+                            <span class="keyword-chip">Error (52)</span>
+                            <span class="keyword-chip">ระเบียบ (45)</span>
                         </div>
                     </div>
                 </div>
-                <!-- Decorative BG -->
-                <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white opacity-5 rounded-full blur-3xl"></div>
-            </div>
-        </div>
 
-        <!-- TAB CONTENT: RAW DATA -->
-        <div id="view-data" class="hidden space-y-6 animate-fade-in">
-            <div class="card">
-                <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+                <!-- 7.2 Thematic Quotes -->
+                <div class="lg:col-span-2 space-y-6">
+                    <!-- Theme: Operational Pain -->
                     <div>
-                        <h3 class="font-bold text-slate-800">ฐานข้อมูลดิบ (Data Explorer)</h3>
-                        <p class="text-xs text-slate-500">ข้อมูลตอบกลับทั้งหมด 164 รายการ (Anonymized)</p>
+                        <h4 class="font-bold text-red-700 mb-2 flex items-center gap-2 text-sm uppercase">Theme A: Operational Pain (ความเจ็บปวดจากการปฏิบัติงาน)</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="quote-card">
+                                <span class="material-symbols-outlined absolute top-2 right-2 text-gray-200 text-3xl">format_quote</span>
+                                <p class="text-sm italic text-gray-600 mb-2">"การพิมพ์เลขไทยบนแป้นพิมพ์มาตรฐานต้องกด Shift ค้างตลอดเวลา ทำให้ความเร็วในการพิมพ์ลดลงเฉลี่ย 20-30% และเมื่อยนิ้วมากเมื่อต้องพิมพ์เอกสารจำนวนมาก"</p>
+                                <div class="text-xs font-bold text-slate-400 text-right">- เจ้าหน้าที่ธุรการ</div>
+                            </div>
+                            <div class="quote-card">
+                                <span class="material-symbols-outlined absolute top-2 right-2 text-gray-200 text-3xl">format_quote</span>
+                                <p class="text-sm italic text-gray-600 mb-2">"ต้องเสียเวลามานั่งแก้เลขไทยเป็นอารบิกใน Excel ทุกครั้งก่อนทำกราฟ หรือคำนวณงบประมาณ ทำให้งานล่าช้าโดยใช่เหตุ"</p>
+                                <div class="text-xs font-bold text-slate-400 text-right">- นักวิเคราะห์นโยบาย</div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="relative w-full md:w-64">
-                        <span class="material-symbols-outlined absolute left-3 top-2.5 text-slate-400 text-sm">search</span>
-                        <input type="text" id="search-input" placeholder="ค้นหาหน่วยงาน, บทบาท..." class="w-full pl-9 pr-4 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+
+                    <!-- Theme: Security Risks -->
+                    <div>
+                        <h4 class="font-bold text-orange-700 mb-2 flex items-center gap-2 text-sm uppercase">Theme B: Security &amp; Risk (ความเสี่ยงด้านความปลอดภัย)</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="quote-card border-l-orange-500">
+                                <span class="material-symbols-outlined absolute top-2 right-2 text-gray-200 text-3xl">security</span>
+                                <p class="text-sm italic text-gray-600 mb-2">"ระบบ SIEM ไม่สามารถอ่าน Log Files ที่มี Timestamp เป็นเลขไทยได้ ทำให้เราพลาดการแจ้งเตือนภัยคุกคามที่สำคัญ (Missed Alerts)"</p>
+                                <div class="text-xs font-bold text-slate-400 text-right">- Cybersecurity Analyst</div>
+                            </div>
+                            <div class="quote-card border-l-orange-500">
+                                <span class="material-symbols-outlined absolute top-2 right-2 text-gray-200 text-3xl">security</span>
+                                <p class="text-sm italic text-gray-600 mb-2">"URL หรือ Domain Name ที่มีเลขไทยผสม ทำให้ผู้ใช้สับสนและเสี่ยงต่อการถูก Phishing ได้ง่าย เพราะแยกไม่ออกระหว่างเลขไทยกับอักขระพิเศษ"</p>
+                                <div class="text-xs font-bold text-slate-400 text-right">- Security Auditor</div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="overflow-x-auto max-h-[500px]">
-                    <table class="w-full text-left data-table">
-                        <thead class="sticky top-0 z-10 bg-slate-50 shadow-sm">
-                            <tr>
-                                <th>ID</th>
-                                <th>หน่วยงาน</th>
-                                <th>ประเภท</th>
-                                <th>บทบาท</th>
-                                <th>นโยบาย</th>
-                                <th>ความเห็น (Sentiment)</th>
-                                <th>ซอฟต์แวร์</th>
-                                <th>อุปสรรคหลัก</th>
-                            </tr>
-                        </thead>
-                        <tbody id="table-raw-data" class="bg-white">
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="font-mono text-xs text-slate-400">#1001</td>
-                    <td class="truncate max-w-[150px]" title="โรงพยาบาลศิริราช">โรงพยาบาลศิริราช</td>
-                    <td><span class="badge badge-orange">Hospital</span></td>
-                    <td class="text-xs">IT/System Admin</td>
-                    <td class="text-xs text-slate-500">No Clear Policy</td>
-                    <td><span class="badge badge-orange">Moderate Issue</span></td>
-                    <td class="text-xs">Microsoft Office</td>
-                    <td class="text-xs text-slate-500 truncate max-w-[100px]" title="Legacy Data Migration">Legacy Data Migration</td>
-                </tr>
-            
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="font-mono text-xs text-slate-400">#1002</td>
-                    <td class="truncate max-w-[150px]" title="AIS / True / DTAC (Telco)">AIS / True / DTAC (Telco)</td>
-                    <td><span class="badge badge-green">Private</span></td>
-                    <td class="text-xs">ผู้บริหาร (CIO/ผอ.)</td>
-                    <td class="text-xs text-slate-500">Flexible Policy</td>
-                    <td><span class="badge badge-green">No Problem</span></td>
-                    <td class="text-xs">Microsoft Office</td>
-                    <td class="text-xs text-slate-500 truncate max-w-[100px]" title="Mindset/Culture">Mindset/Culture</td>
-                </tr>
-            
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="font-mono text-xs text-slate-400">#1003</td>
-                    <td class="truncate max-w-[150px]" title="โรงพยาบาลศิริราช">โรงพยาบาลศิริราช</td>
-                    <td><span class="badge badge-orange">Hospital</span></td>
-                    <td class="text-xs">Data Analyst</td>
-                    <td class="text-xs text-slate-500">No Clear Policy</td>
-                    <td><span class="badge badge-orange">Moderate Issue</span></td>
-                    <td class="text-xs">Microsoft Office</td>
-                    <td class="text-xs text-slate-500 truncate max-w-[100px]" title="Mindset/Culture">Mindset/Culture</td>
-                </tr>
-            
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="font-mono text-xs text-slate-400">#1004</td>
-                    <td class="truncate max-w-[150px]" title="จุฬาลงกรณ์มหาวิทยาลัย">จุฬาลงกรณ์มหาวิทยาลัย</td>
-                    <td><span class="badge badge-orange">Education</span></td>
-                    <td class="text-xs">Security/Audit</td>
-                    <td class="text-xs text-slate-500">No Clear Policy</td>
-                    <td><span class="badge badge-orange">Moderate Issue</span></td>
-                    <td class="text-xs">Microsoft Office</td>
-                    <td class="text-xs text-slate-500 truncate max-w-[100px]" title="Mindset/Culture">Mindset/Culture</td>
-                </tr>
-            
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="font-mono text-xs text-slate-400">#1005</td>
-                    <td class="truncate max-w-[150px]" title="สำนักงานพัฒนาธุรกรรมทางอิเล็กทรอนิกส์ (ETDA)">สำนักงานพัฒนาธุรกรรมทางอิเล็กทรอนิกส์ (ETDA)</td>
-                    <td><span class="badge badge-orange">Public Org</span></td>
-                    <td class="text-xs">ผู้บริหาร (CIO/ผอ.)</td>
-                    <td class="text-xs text-slate-500">Flexible Policy</td>
-                    <td><span class="badge badge-orange">Moderate Issue</span></td>
-                    <td class="text-xs">Microsoft Office</td>
-                    <td class="text-xs text-slate-500 truncate max-w-[100px]" title="Mindset/Culture">Mindset/Culture</td>
-                </tr>
-            
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="font-mono text-xs text-slate-400">#1006</td>
-                    <td class="truncate max-w-[150px]" title="AIS / True / DTAC (Telco)">AIS / True / DTAC (Telco)</td>
-                    <td><span class="badge badge-green">Private</span></td>
-                    <td class="text-xs">Security/Audit</td>
-                    <td class="text-xs text-slate-500">Flexible Policy</td>
-                    <td><span class="badge badge-orange">Moderate Issue</span></td>
-                    <td class="text-xs">Microsoft Office</td>
-                    <td class="text-xs text-slate-500 truncate max-w-[100px]" title="Mindset/Culture">Mindset/Culture</td>
-                </tr>
-            
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="font-mono text-xs text-slate-400">#1007</td>
-                    <td class="truncate max-w-[150px]" title="กระทรวงดิจิทัลเพื่อเศรษฐกิจและสังคม">กระทรวงดิจิทัลเพื่อเศรษฐกิจและสังคม</td>
-                    <td><span class="badge badge-blue">Government</span></td>
-                    <td class="text-xs">IT/System Admin</td>
-                    <td class="text-xs text-slate-500">Strict Policy</td>
-                    <td><span class="badge badge-red">Critical Issue</span></td>
-                    <td class="text-xs">e-Saraban</td>
-                    <td class="text-xs text-slate-500 truncate max-w-[100px]" title="Legacy Data Migration">Legacy Data Migration</td>
-                </tr>
-            
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="font-mono text-xs text-slate-400">#1008</td>
-                    <td class="truncate max-w-[150px]" title="ธนาคารแห่งประเทศไทย">ธนาคารแห่งประเทศไทย</td>
-                    <td><span class="badge badge-orange">Bank</span></td>
-                    <td class="text-xs">สารบรรณ/ธุรการ</td>
-                    <td class="text-xs text-slate-500">No Clear Policy</td>
-                    <td><span class="badge badge-orange">Moderate Issue</span></td>
-                    <td class="text-xs">Microsoft Office</td>
-                    <td class="text-xs text-slate-500 truncate max-w-[100px]" title="Mindset/Culture">Mindset/Culture</td>
-                </tr>
-            
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="font-mono text-xs text-slate-400">#1009</td>
-                    <td class="truncate max-w-[150px]" title="ธนาคารแห่งประเทศไทย">ธนาคารแห่งประเทศไทย</td>
-                    <td><span class="badge badge-orange">Bank</span></td>
-                    <td class="text-xs">สารบรรณ/ธุรการ</td>
-                    <td class="text-xs text-slate-500">No Clear Policy</td>
-                    <td><span class="badge badge-orange">Moderate Issue</span></td>
-                    <td class="text-xs">Microsoft Office</td>
-                    <td class="text-xs text-slate-500 truncate max-w-[100px]" title="Mindset/Culture">Mindset/Culture</td>
-                </tr>
-            
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="font-mono text-xs text-slate-400">#1010</td>
-                    <td class="truncate max-w-[150px]" title="สำนักงานพัฒนารัฐบาลดิจิทัล (DGA)">สำนักงานพัฒนารัฐบาลดิจิทัล (DGA)</td>
-                    <td><span class="badge badge-orange">Public Org</span></td>
-                    <td class="text-xs">IT/System Admin</td>
-                    <td class="text-xs text-slate-500">Flexible Policy</td>
-                    <td><span class="badge badge-orange">Moderate Issue</span></td>
-                    <td class="text-xs">Microsoft Office</td>
-                    <td class="text-xs text-slate-500 truncate max-w-[100px]" title="Legacy Data Migration">Legacy Data Migration</td>
-                </tr>
-            
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="font-mono text-xs text-slate-400">#1011</td>
-                    <td class="truncate max-w-[150px]" title="สำนักงานพัฒนาธุรกรรมทางอิเล็กทรอนิกส์ (ETDA)">สำนักงานพัฒนาธุรกรรมทางอิเล็กทรอนิกส์ (ETDA)</td>
-                    <td><span class="badge badge-orange">Public Org</span></td>
-                    <td class="text-xs">Data Analyst</td>
-                    <td class="text-xs text-slate-500">Flexible Policy</td>
-                    <td><span class="badge badge-green">No Problem</span></td>
-                    <td class="text-xs">Microsoft Office</td>
-                    <td class="text-xs text-slate-500 truncate max-w-[100px]" title="Mindset/Culture">Mindset/Culture</td>
-                </tr>
-            
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="font-mono text-xs text-slate-400">#1012</td>
-                    <td class="truncate max-w-[150px]" title="สำนักงานพัฒนารัฐบาลดิจิทัล (DGA)">สำนักงานพัฒนารัฐบาลดิจิทัล (DGA)</td>
-                    <td><span class="badge badge-orange">Public Org</span></td>
-                    <td class="text-xs">Data Analyst</td>
-                    <td class="text-xs text-slate-500">Flexible Policy</td>
-                    <td><span class="badge badge-orange">Moderate Issue</span></td>
-                    <td class="text-xs">Microsoft Office</td>
-                    <td class="text-xs text-slate-500 truncate max-w-[100px]" title="Mindset/Culture">Mindset/Culture</td>
-                </tr>
-            
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="font-mono text-xs text-slate-400">#1013</td>
-                    <td class="truncate max-w-[150px]" title="โรงพยาบาลศิริราช">โรงพยาบาลศิริราช</td>
-                    <td><span class="badge badge-orange">Hospital</span></td>
-                    <td class="text-xs">IT/System Admin</td>
-                    <td class="text-xs text-slate-500">No Clear Policy</td>
-                    <td><span class="badge badge-orange">Moderate Issue</span></td>
-                    <td class="text-xs">Microsoft Office</td>
-                    <td class="text-xs text-slate-500 truncate max-w-[100px]" title="Legacy Data Migration">Legacy Data Migration</td>
-                </tr>
-            
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="font-mono text-xs text-slate-400">#1014</td>
-                    <td class="truncate max-w-[150px]" title="สำนักงานพัฒนารัฐบาลดิจิทัล (DGA)">สำนักงานพัฒนารัฐบาลดิจิทัล (DGA)</td>
-                    <td><span class="badge badge-orange">Public Org</span></td>
-                    <td class="text-xs">Security/Audit</td>
-                    <td class="text-xs text-slate-500">Flexible Policy</td>
-                    <td><span class="badge badge-orange">Moderate Issue</span></td>
-                    <td class="text-xs">Microsoft Office</td>
-                    <td class="text-xs text-slate-500 truncate max-w-[100px]" title="Mindset/Culture">Mindset/Culture</td>
-                </tr>
-            
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="font-mono text-xs text-slate-400">#1015</td>
-                    <td class="truncate max-w-[150px]" title="สำนักงานคณะกรรมการการรักษาความมั่นคงปลอดภัยไซเบอร์แห่งชาติ (สกมช.)">สำนักงานคณะกรรมการการรักษาความมั่นคงปลอดภัยไซเบอร์แห่งชาติ (สกมช.)</td>
-                    <td><span class="badge badge-orange">Public Org</span></td>
-                    <td class="text-xs">ผู้บริหาร (CIO/ผอ.)</td>
-                    <td class="text-xs text-slate-500">Flexible Policy</td>
-                    <td><span class="badge badge-orange">Moderate Issue</span></td>
-                    <td class="text-xs">Microsoft Office</td>
-                    <td class="text-xs text-slate-500 truncate max-w-[100px]" title="Mindset/Culture">Mindset/Culture</td>
-                </tr>
-            
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="font-mono text-xs text-slate-400">#1016</td>
-                    <td class="truncate max-w-[150px]" title="กระทรวงดิจิทัลเพื่อเศรษฐกิจและสังคม">กระทรวงดิจิทัลเพื่อเศรษฐกิจและสังคม</td>
-                    <td><span class="badge badge-blue">Government</span></td>
-                    <td class="text-xs">ผู้บริหาร (CIO/ผอ.)</td>
-                    <td class="text-xs text-slate-500">Strict Policy</td>
-                    <td><span class="badge badge-orange">Moderate Issue</span></td>
-                    <td class="text-xs">Microsoft Office</td>
-                    <td class="text-xs text-slate-500 truncate max-w-[100px]" title="Legal/Regulations">Legal/Regulations</td>
-                </tr>
-            
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="font-mono text-xs text-slate-400">#1017</td>
-                    <td class="truncate max-w-[150px]" title="กระทรวงดิจิทัลเพื่อเศรษฐกิจและสังคม">กระทรวงดิจิทัลเพื่อเศรษฐกิจและสังคม</td>
-                    <td><span class="badge badge-blue">Government</span></td>
-                    <td class="text-xs">Data Analyst</td>
-                    <td class="text-xs text-slate-500">Strict Policy</td>
-                    <td><span class="badge badge-green">No Problem</span></td>
-                    <td class="text-xs">e-Saraban</td>
-                    <td class="text-xs text-slate-500 truncate max-w-[100px]" title="Legal/Regulations">Legal/Regulations</td>
-                </tr>
-            
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="font-mono text-xs text-slate-400">#1018</td>
-                    <td class="truncate max-w-[150px]" title="กระทรวงดิจิทัลเพื่อเศรษฐกิจและสังคม">กระทรวงดิจิทัลเพื่อเศรษฐกิจและสังคม</td>
-                    <td><span class="badge badge-blue">Government</span></td>
-                    <td class="text-xs">Security/Audit</td>
-                    <td class="text-xs text-slate-500">Strict Policy</td>
-                    <td><span class="badge badge-red">Critical Issue</span></td>
-                    <td class="text-xs">e-Saraban</td>
-                    <td class="text-xs text-slate-500 truncate max-w-[100px]" title="Legal/Regulations">Legal/Regulations</td>
-                </tr>
-            
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="font-mono text-xs text-slate-400">#1019</td>
-                    <td class="truncate max-w-[150px]" title="สำนักงานคณะกรรมการการรักษาความมั่นคงปลอดภัยไซเบอร์แห่งชาติ (สกมช.)">สำนักงานคณะกรรมการการรักษาความมั่นคงปลอดภัยไซเบอร์แห่งชาติ (สกมช.)</td>
-                    <td><span class="badge badge-orange">Public Org</span></td>
-                    <td class="text-xs">สารบรรณ/ธุรการ</td>
-                    <td class="text-xs text-slate-500">Flexible Policy</td>
-                    <td><span class="badge badge-orange">Moderate Issue</span></td>
-                    <td class="text-xs">Microsoft Office</td>
-                    <td class="text-xs text-slate-500 truncate max-w-[100px]" title="Mindset/Culture">Mindset/Culture</td>
-                </tr>
-            
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="font-mono text-xs text-slate-400">#1020</td>
-                    <td class="truncate max-w-[150px]" title="สำนักนายกรัฐมนตรี">สำนักนายกรัฐมนตรี</td>
-                    <td><span class="badge badge-blue">Government</span></td>
-                    <td class="text-xs">IT/System Admin</td>
-                    <td class="text-xs text-slate-500">Strict Policy</td>
-                    <td><span class="badge badge-red">Critical Issue</span></td>
-                    <td class="text-xs">e-Saraban</td>
-                    <td class="text-xs text-slate-500 truncate max-w-[100px]" title="Legacy Data Migration">Legacy Data Migration</td>
-                </tr>
-            
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="font-mono text-xs text-slate-400">#1021</td>
-                    <td class="truncate max-w-[150px]" title="สำนักงานคณะกรรมการการรักษาความมั่นคงปลอดภัยไซเบอร์แห่งชาติ (สกมช.)">สำนักงานคณะกรรมการการรักษาความมั่นคงปลอดภัยไซเบอร์แห่งชาติ (สกมช.)</td>
-                    <td><span class="badge badge-orange">Public Org</span></td>
-                    <td class="text-xs">ผู้บริหาร (CIO/ผอ.)</td>
-                    <td class="text-xs text-slate-500">Flexible Policy</td>
-                    <td><span class="badge badge-orange">Moderate Issue</span></td>
-                    <td class="text-xs">Microsoft Office</td>
-                    <td class="text-xs text-slate-500 truncate max-w-[100px]" title="Mindset/Culture">Mindset/Culture</td>
-                </tr>
-            
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="font-mono text-xs text-slate-400">#1022</td>
-                    <td class="truncate max-w-[150px]" title="AIS / True / DTAC (Telco)">AIS / True / DTAC (Telco)</td>
-                    <td><span class="badge badge-green">Private</span></td>
-                    <td class="text-xs">Data Analyst</td>
-                    <td class="text-xs text-slate-500">Flexible Policy</td>
-                    <td><span class="badge badge-orange">Moderate Issue</span></td>
-                    <td class="text-xs">Microsoft Office</td>
-                    <td class="text-xs text-slate-500 truncate max-w-[100px]" title="Mindset/Culture">Mindset/Culture</td>
-                </tr>
-            
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="font-mono text-xs text-slate-400">#1023</td>
-                    <td class="truncate max-w-[150px]" title="กระทรวงดิจิทัลเพื่อเศรษฐกิจและสังคม">กระทรวงดิจิทัลเพื่อเศรษฐกิจและสังคม</td>
-                    <td><span class="badge badge-blue">Government</span></td>
-                    <td class="text-xs">ผู้บริหาร (CIO/ผอ.)</td>
-                    <td class="text-xs text-slate-500">Strict Policy</td>
-                    <td><span class="badge badge-orange">Moderate Issue</span></td>
-                    <td class="text-xs">Microsoft Office</td>
-                    <td class="text-xs text-slate-500 truncate max-w-[100px]" title="Legal/Regulations">Legal/Regulations</td>
-                </tr>
-            
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="font-mono text-xs text-slate-400">#1024</td>
-                    <td class="truncate max-w-[150px]" title="สำนักนายกรัฐมนตรี">สำนักนายกรัฐมนตรี</td>
-                    <td><span class="badge badge-blue">Government</span></td>
-                    <td class="text-xs">IT/System Admin</td>
-                    <td class="text-xs text-slate-500">Strict Policy</td>
-                    <td><span class="badge badge-red">Critical Issue</span></td>
-                    <td class="text-xs">e-Saraban</td>
-                    <td class="text-xs text-slate-500 truncate max-w-[100px]" title="Legacy Data Migration">Legacy Data Migration</td>
-                </tr>
-            
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="font-mono text-xs text-slate-400">#1025</td>
-                    <td class="truncate max-w-[150px]" title="จุฬาลงกรณ์มหาวิทยาลัย">จุฬาลงกรณ์มหาวิทยาลัย</td>
-                    <td><span class="badge badge-orange">Education</span></td>
-                    <td class="text-xs">สารบรรณ/ธุรการ</td>
-                    <td class="text-xs text-slate-500">No Clear Policy</td>
-                    <td><span class="badge badge-orange">Moderate Issue</span></td>
-                    <td class="text-xs">Microsoft Office</td>
-                    <td class="text-xs text-slate-500 truncate max-w-[100px]" title="Mindset/Culture">Mindset/Culture</td>
-                </tr>
-            
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="font-mono text-xs text-slate-400">#1026</td>
-                    <td class="truncate max-w-[150px]" title="ธนาคารแห่งประเทศไทย">ธนาคารแห่งประเทศไทย</td>
-                    <td><span class="badge badge-orange">Bank</span></td>
-                    <td class="text-xs">IT/System Admin</td>
-                    <td class="text-xs text-slate-500">No Clear Policy</td>
-                    <td><span class="badge badge-orange">Moderate Issue</span></td>
-                    <td class="text-xs">Microsoft Office</td>
-                    <td class="text-xs text-slate-500 truncate max-w-[100px]" title="Legacy Data Migration">Legacy Data Migration</td>
-                </tr>
-            
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="font-mono text-xs text-slate-400">#1027</td>
-                    <td class="truncate max-w-[150px]" title="จุฬาลงกรณ์มหาวิทยาลัย">จุฬาลงกรณ์มหาวิทยาลัย</td>
-                    <td><span class="badge badge-orange">Education</span></td>
-                    <td class="text-xs">ผู้บริหาร (CIO/ผอ.)</td>
-                    <td class="text-xs text-slate-500">No Clear Policy</td>
-                    <td><span class="badge badge-green">No Problem</span></td>
-                    <td class="text-xs">Microsoft Office</td>
-                    <td class="text-xs text-slate-500 truncate max-w-[100px]" title="Mindset/Culture">Mindset/Culture</td>
-                </tr>
-            
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="font-mono text-xs text-slate-400">#1028</td>
-                    <td class="truncate max-w-[150px]" title="AIS / True / DTAC (Telco)">AIS / True / DTAC (Telco)</td>
-                    <td><span class="badge badge-green">Private</span></td>
-                    <td class="text-xs">ผู้บริหาร (CIO/ผอ.)</td>
-                    <td class="text-xs text-slate-500">Flexible Policy</td>
-                    <td><span class="badge badge-orange">Moderate Issue</span></td>
-                    <td class="text-xs">Microsoft Office</td>
-                    <td class="text-xs text-slate-500 truncate max-w-[100px]" title="Mindset/Culture">Mindset/Culture</td>
-                </tr>
-            
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="font-mono text-xs text-slate-400">#1029</td>
-                    <td class="truncate max-w-[150px]" title="สำนักงานคณะกรรมการการรักษาความมั่นคงปลอดภัยไซเบอร์แห่งชาติ (สกมช.)">สำนักงานคณะกรรมการการรักษาความมั่นคงปลอดภัยไซเบอร์แห่งชาติ (สกมช.)</td>
-                    <td><span class="badge badge-orange">Public Org</span></td>
-                    <td class="text-xs">IT/System Admin</td>
-                    <td class="text-xs text-slate-500">Flexible Policy</td>
-                    <td><span class="badge badge-orange">Moderate Issue</span></td>
-                    <td class="text-xs">Microsoft Office</td>
-                    <td class="text-xs text-slate-500 truncate max-w-[100px]" title="Legacy Data Migration">Legacy Data Migration</td>
-                </tr>
-            
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="font-mono text-xs text-slate-400">#1030</td>
-                    <td class="truncate max-w-[150px]" title="จุฬาลงกรณ์มหาวิทยาลัย">จุฬาลงกรณ์มหาวิทยาลัย</td>
-                    <td><span class="badge badge-orange">Education</span></td>
-                    <td class="text-xs">Security/Audit</td>
-                    <td class="text-xs text-slate-500">No Clear Policy</td>
-                    <td><span class="badge badge-orange">Moderate Issue</span></td>
-                    <td class="text-xs">Microsoft Office</td>
-                    <td class="text-xs text-slate-500 truncate max-w-[100px]" title="Mindset/Culture">Mindset/Culture</td>
-                </tr>
-            
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="font-mono text-xs text-slate-400">#1031</td>
-                    <td class="truncate max-w-[150px]" title="โรงพยาบาลศิริราช">โรงพยาบาลศิริราช</td>
-                    <td><span class="badge badge-orange">Hospital</span></td>
-                    <td class="text-xs">Data Analyst</td>
-                    <td class="text-xs text-slate-500">No Clear Policy</td>
-                    <td><span class="badge badge-orange">Moderate Issue</span></td>
-                    <td class="text-xs">Microsoft Office</td>
-                    <td class="text-xs text-slate-500 truncate max-w-[100px]" title="Mindset/Culture">Mindset/Culture</td>
-                </tr>
-            
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="font-mono text-xs text-slate-400">#1032</td>
-                    <td class="truncate max-w-[150px]" title="สำนักงานพัฒนาธุรกรรมทางอิเล็กทรอนิกส์ (ETDA)">สำนักงานพัฒนาธุรกรรมทางอิเล็กทรอนิกส์ (ETDA)</td>
-                    <td><span class="badge badge-orange">Public Org</span></td>
-                    <td class="text-xs">Security/Audit</td>
-                    <td class="text-xs text-slate-500">Flexible Policy</td>
-                    <td><span class="badge badge-orange">Moderate Issue</span></td>
-                    <td class="text-xs">Microsoft Office</td>
-                    <td class="text-xs text-slate-500 truncate max-w-[100px]" title="Mindset/Culture">Mindset/Culture</td>
-                </tr>
-            
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="font-mono text-xs text-slate-400">#1033</td>
-                    <td class="truncate max-w-[150px]" title="กระทรวงดิจิทัลเพื่อเศรษฐกิจและสังคม">กระทรวงดิจิทัลเพื่อเศรษฐกิจและสังคม</td>
-                    <td><span class="badge badge-blue">Government</span></td>
-                    <td class="text-xs">IT/System Admin</td>
-                    <td class="text-xs text-slate-500">Strict Policy</td>
-                    <td><span class="badge badge-red">Critical Issue</span></td>
-                    <td class="text-xs">Microsoft Office</td>
-                    <td class="text-xs text-slate-500 truncate max-w-[100px]" title="Legacy Data Migration">Legacy Data Migration</td>
-                </tr>
-            
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="font-mono text-xs text-slate-400">#1034</td>
-                    <td class="truncate max-w-[150px]" title="AIS / True / DTAC (Telco)">AIS / True / DTAC (Telco)</td>
-                    <td><span class="badge badge-green">Private</span></td>
-                    <td class="text-xs">Data Analyst</td>
-                    <td class="text-xs text-slate-500">Flexible Policy</td>
-                    <td><span class="badge badge-green">No Problem</span></td>
-                    <td class="text-xs">Google Workspace</td>
-                    <td class="text-xs text-slate-500 truncate max-w-[100px]" title="Mindset/Culture">Mindset/Culture</td>
-                </tr>
-            
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="font-mono text-xs text-slate-400">#1035</td>
-                    <td class="truncate max-w-[150px]" title="ธนาคารแห่งประเทศไทย">ธนาคารแห่งประเทศไทย</td>
-                    <td><span class="badge badge-orange">Bank</span></td>
-                    <td class="text-xs">IT/System Admin</td>
-                    <td class="text-xs text-slate-500">No Clear Policy</td>
-                    <td><span class="badge badge-orange">Moderate Issue</span></td>
-                    <td class="text-xs">Microsoft Office</td>
-                    <td class="text-xs text-slate-500 truncate max-w-[100px]" title="Legacy Data Migration">Legacy Data Migration</td>
-                </tr>
-            
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="font-mono text-xs text-slate-400">#1036</td>
-                    <td class="truncate max-w-[150px]" title="สำนักงานพัฒนาธุรกรรมทางอิเล็กทรอนิกส์ (ETDA)">สำนักงานพัฒนาธุรกรรมทางอิเล็กทรอนิกส์ (ETDA)</td>
-                    <td><span class="badge badge-orange">Public Org</span></td>
-                    <td class="text-xs">สารบรรณ/ธุรการ</td>
-                    <td class="text-xs text-slate-500">Flexible Policy</td>
-                    <td><span class="badge badge-orange">Moderate Issue</span></td>
-                    <td class="text-xs">Microsoft Office</td>
-                    <td class="text-xs text-slate-500 truncate max-w-[100px]" title="Mindset/Culture">Mindset/Culture</td>
-                </tr>
-            
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="font-mono text-xs text-slate-400">#1037</td>
-                    <td class="truncate max-w-[150px]" title="สำนักงานคณะกรรมการการรักษาความมั่นคงปลอดภัยไซเบอร์แห่งชาติ (สกมช.)">สำนักงานคณะกรรมการการรักษาความมั่นคงปลอดภัยไซเบอร์แห่งชาติ (สกมช.)</td>
-                    <td><span class="badge badge-orange">Public Org</span></td>
-                    <td class="text-xs">ผู้บริหาร (CIO/ผอ.)</td>
-                    <td class="text-xs text-slate-500">Flexible Policy</td>
-                    <td><span class="badge badge-orange">Moderate Issue</span></td>
-                    <td class="text-xs">Microsoft Office</td>
-                    <td class="text-xs text-slate-500 truncate max-w-[100px]" title="Mindset/Culture">Mindset/Culture</td>
-                </tr>
-            
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="font-mono text-xs text-slate-400">#1038</td>
-                    <td class="truncate max-w-[150px]" title="ธนาคารแห่งประเทศไทย">ธนาคารแห่งประเทศไทย</td>
-                    <td><span class="badge badge-orange">Bank</span></td>
-                    <td class="text-xs">IT/System Admin</td>
-                    <td class="text-xs text-slate-500">No Clear Policy</td>
-                    <td><span class="badge badge-orange">Moderate Issue</span></td>
-                    <td class="text-xs">Microsoft Office</td>
-                    <td class="text-xs text-slate-500 truncate max-w-[100px]" title="Legacy Data Migration">Legacy Data Migration</td>
-                </tr>
-            
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="font-mono text-xs text-slate-400">#1039</td>
-                    <td class="truncate max-w-[150px]" title="กรมการปกครอง">กรมการปกครอง</td>
-                    <td><span class="badge badge-blue">Government</span></td>
-                    <td class="text-xs">IT/System Admin</td>
-                    <td class="text-xs text-slate-500">Strict Policy</td>
-                    <td><span class="badge badge-red">Critical Issue</span></td>
-                    <td class="text-xs">Microsoft Office</td>
-                    <td class="text-xs text-slate-500 truncate max-w-[100px]" title="Legacy Data Migration">Legacy Data Migration</td>
-                </tr>
-            
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="font-mono text-xs text-slate-400">#1040</td>
-                    <td class="truncate max-w-[150px]" title="AIS / True / DTAC (Telco)">AIS / True / DTAC (Telco)</td>
-                    <td><span class="badge badge-green">Private</span></td>
-                    <td class="text-xs">IT/System Admin</td>
-                    <td class="text-xs text-slate-500">Flexible Policy</td>
-                    <td><span class="badge badge-orange">Moderate Issue</span></td>
-                    <td class="text-xs">Google Workspace</td>
-                    <td class="text-xs text-slate-500 truncate max-w-[100px]" title="Legacy Data Migration">Legacy Data Migration</td>
-                </tr>
-            
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="font-mono text-xs text-slate-400">#1041</td>
-                    <td class="truncate max-w-[150px]" title="ธนาคารแห่งประเทศไทย">ธนาคารแห่งประเทศไทย</td>
-                    <td><span class="badge badge-orange">Bank</span></td>
-                    <td class="text-xs">สารบรรณ/ธุรการ</td>
-                    <td class="text-xs text-slate-500">No Clear Policy</td>
-                    <td><span class="badge badge-orange">Moderate Issue</span></td>
-                    <td class="text-xs">Microsoft Office</td>
-                    <td class="text-xs text-slate-500 truncate max-w-[100px]" title="Mindset/Culture">Mindset/Culture</td>
-                </tr>
-            
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="font-mono text-xs text-slate-400">#1042</td>
-                    <td class="truncate max-w-[150px]" title="สำนักนายกรัฐมนตรี">สำนักนายกรัฐมนตรี</td>
-                    <td><span class="badge badge-blue">Government</span></td>
-                    <td class="text-xs">IT/System Admin</td>
-                    <td class="text-xs text-slate-500">Strict Policy</td>
-                    <td><span class="badge badge-red">Critical Issue</span></td>
-                    <td class="text-xs">e-Saraban</td>
-                    <td class="text-xs text-slate-500 truncate max-w-[100px]" title="Legacy Data Migration">Legacy Data Migration</td>
-                </tr>
-            
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="font-mono text-xs text-slate-400">#1043</td>
-                    <td class="truncate max-w-[150px]" title="โรงพยาบาลศิริราช">โรงพยาบาลศิริราช</td>
-                    <td><span class="badge badge-orange">Hospital</span></td>
-                    <td class="text-xs">Security/Audit</td>
-                    <td class="text-xs text-slate-500">No Clear Policy</td>
-                    <td><span class="badge badge-orange">Moderate Issue</span></td>
-                    <td class="text-xs">Microsoft Office</td>
-                    <td class="text-xs text-slate-500 truncate max-w-[100px]" title="Mindset/Culture">Mindset/Culture</td>
-                </tr>
-            
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="font-mono text-xs text-slate-400">#1044</td>
-                    <td class="truncate max-w-[150px]" title="จุฬาลงกรณ์มหาวิทยาลัย">จุฬาลงกรณ์มหาวิทยาลัย</td>
-                    <td><span class="badge badge-orange">Education</span></td>
-                    <td class="text-xs">IT/System Admin</td>
-                    <td class="text-xs text-slate-500">No Clear Policy</td>
-                    <td><span class="badge badge-orange">Moderate Issue</span></td>
-                    <td class="text-xs">Microsoft Office</td>
-                    <td class="text-xs text-slate-500 truncate max-w-[100px]" title="Legacy Data Migration">Legacy Data Migration</td>
-                </tr>
-            
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="font-mono text-xs text-slate-400">#1045</td>
-                    <td class="truncate max-w-[150px]" title="สำนักงานพัฒนารัฐบาลดิจิทัล (DGA)">สำนักงานพัฒนารัฐบาลดิจิทัล (DGA)</td>
-                    <td><span class="badge badge-orange">Public Org</span></td>
-                    <td class="text-xs">สารบรรณ/ธุรการ</td>
-                    <td class="text-xs text-slate-500">Flexible Policy</td>
-                    <td><span class="badge badge-orange">Moderate Issue</span></td>
-                    <td class="text-xs">Microsoft Office</td>
-                    <td class="text-xs text-slate-500 truncate max-w-[100px]" title="Mindset/Culture">Mindset/Culture</td>
-                </tr>
-            
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="font-mono text-xs text-slate-400">#1046</td>
-                    <td class="truncate max-w-[150px]" title="โรงพยาบาลศิริราช">โรงพยาบาลศิริราช</td>
-                    <td><span class="badge badge-orange">Hospital</span></td>
-                    <td class="text-xs">ผู้บริหาร (CIO/ผอ.)</td>
-                    <td class="text-xs text-slate-500">No Clear Policy</td>
-                    <td><span class="badge badge-orange">Moderate Issue</span></td>
-                    <td class="text-xs">Microsoft Office</td>
-                    <td class="text-xs text-slate-500 truncate max-w-[100px]" title="Mindset/Culture">Mindset/Culture</td>
-                </tr>
-            
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="font-mono text-xs text-slate-400">#1047</td>
-                    <td class="truncate max-w-[150px]" title="โรงพยาบาลศิริราช">โรงพยาบาลศิริราช</td>
-                    <td><span class="badge badge-orange">Hospital</span></td>
-                    <td class="text-xs">ผู้บริหาร (CIO/ผอ.)</td>
-                    <td class="text-xs text-slate-500">No Clear Policy</td>
-                    <td><span class="badge badge-green">No Problem</span></td>
-                    <td class="text-xs">Microsoft Office</td>
-                    <td class="text-xs text-slate-500 truncate max-w-[100px]" title="Mindset/Culture">Mindset/Culture</td>
-                </tr>
-            
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="font-mono text-xs text-slate-400">#1048</td>
-                    <td class="truncate max-w-[150px]" title="สำนักงานพัฒนาธุรกรรมทางอิเล็กทรอนิกส์ (ETDA)">สำนักงานพัฒนาธุรกรรมทางอิเล็กทรอนิกส์ (ETDA)</td>
-                    <td><span class="badge badge-orange">Public Org</span></td>
-                    <td class="text-xs">ผู้บริหาร (CIO/ผอ.)</td>
-                    <td class="text-xs text-slate-500">Flexible Policy</td>
-                    <td><span class="badge badge-orange">Moderate Issue</span></td>
-                    <td class="text-xs">Microsoft Office</td>
-                    <td class="text-xs text-slate-500 truncate max-w-[100px]" title="Mindset/Culture">Mindset/Culture</td>
-                </tr>
-            
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="font-mono text-xs text-slate-400">#1049</td>
-                    <td class="truncate max-w-[150px]" title="ธนาคารแห่งประเทศไทย">ธนาคารแห่งประเทศไทย</td>
-                    <td><span class="badge badge-orange">Bank</span></td>
-                    <td class="text-xs">Security/Audit</td>
-                    <td class="text-xs text-slate-500">No Clear Policy</td>
-                    <td><span class="badge badge-orange">Moderate Issue</span></td>
-                    <td class="text-xs">Microsoft Office</td>
-                    <td class="text-xs text-slate-500 truncate max-w-[100px]" title="Mindset/Culture">Mindset/Culture</td>
-                </tr>
-            
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="font-mono text-xs text-slate-400">#1050</td>
-                    <td class="truncate max-w-[150px]" title="ธนาคารแห่งประเทศไทย">ธนาคารแห่งประเทศไทย</td>
-                    <td><span class="badge badge-orange">Bank</span></td>
-                    <td class="text-xs">Data Analyst</td>
-                    <td class="text-xs text-slate-500">No Clear Policy</td>
-                    <td><span class="badge badge-green">No Problem</span></td>
-                    <td class="text-xs">Microsoft Office</td>
-                    <td class="text-xs text-slate-500 truncate max-w-[100px]" title="Mindset/Culture">Mindset/Culture</td>
-                </tr>
-            </tbody>
-                    </table>
-                </div>
-                <div class="mt-4 text-center">
-                    <button onclick="loadMoreData()" class="text-sm text-blue-600 font-semibold hover:underline">โหลดข้อมูลเพิ่มเติม...</button>
+
+                    <!-- Theme: Strategic Suggestions -->
+                    <div>
+                        <h4 class="font-bold text-blue-700 mb-2 flex items-center gap-2 text-sm uppercase">Theme C: Strategic Suggestions (ข้อเสนอแนะเชิงนโยบาย)</h4>
+                        <div class="bg-blue-50 rounded p-4 text-sm text-slate-700 border border-blue-100">
+                            <ul class="space-y-2 list-disc list-inside">
+                                <li>"ควรประกาศเป็น <strong>National Data Standard</strong> ให้ชัดเจนว่าฟิลด์ใดเป็น Machine Readable (อารบิก) และฟิลด์ใดเป็น Presentation (ไทย)"</li>
+                                <li>"ภาครัฐต้องจัดหา <strong>Tools สำหรับแปลงข้อมูล (Batch Converter)</strong> แจกฟรีให้หน่วยงานเล็กๆ ที่ไม่มีงบประมาณจ้าง Programmer"</li>
+                                <li>"ควรเริ่มบังคับใช้จากเอกสารที่เกิดใหม่ (Born Digital) ก่อน ส่วนเอกสารเก่าให้ทยอยปรับปรุงตามรอบอายุ"</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+        </section>
+
+        <!-- 8. Support Requirements -->
+        <section class="card" id="sec8">
+            <div class="section-header text-teal-700">
+                <div class="section-number bg-teal-600">8</div>
+                <h3 class="section-title">สิ่งที่ต้องการการสนับสนุน (Support Requirements Stats)</h3>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="text-center p-6 border border-teal-100 rounded-xl bg-teal-50 hover:shadow-md transition-shadow">
+                    <span class="material-symbols-outlined text-4xl text-teal-600 mb-2">gavel</span>
+                    <div class="text-4xl font-bold text-slate-800 mb-1">94.4%</div>
+                    <div class="font-bold text-teal-800 text-sm uppercase tracking-wide">Legal Support</div>
+                    <p class="text-xs text-gray-500 mt-2 px-4">ต้องการกฎหมาย/ระเบียบรองรับที่ชัดเจนเพื่ออ้างอิง</p>
+                </div>
+                <div class="text-center p-6 border border-blue-100 rounded-xl bg-blue-50 hover:shadow-md transition-shadow">
+                    <span class="material-symbols-outlined text-4xl text-blue-600 mb-2">build</span>
+                    <div class="text-4xl font-bold text-slate-800 mb-1">78.3%</div>
+                    <div class="font-bold text-blue-800 text-sm uppercase tracking-wide">Technical Tools</div>
+                    <p class="text-xs text-gray-500 mt-2 px-4">ต้องการ Software แปลงข้อมูลกลางจากภาครัฐ</p>
+                </div>
+                <div class="text-center p-6 border border-purple-100 rounded-xl bg-purple-50 hover:shadow-md transition-shadow">
+                    <span class="material-symbols-outlined text-4xl text-purple-600 mb-2">menu_book</span>
+                    <div class="text-4xl font-bold text-slate-800 mb-1">65.0%</div>
+                    <div class="font-bold text-purple-800 text-sm uppercase tracking-wide">Guideline</div>
+                    <p class="text-xs text-gray-500 mt-2 px-4">ต้องการคู่มือปฏิบัติและการจำแนกประเภทเอกสาร</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 9. Proposed Framework -->
+        <section class="card" id="sec9">
+            <div class="section-header text-slate-700">
+                <div class="section-number bg-slate-600">9</div>
+                <h3 class="section-title">กรอบมาตรฐานที่นำเสนอ (Proposed Framework Consensus)</h3>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Type 1 -->
+                <div class="border rounded-lg p-5 relative overflow-hidden group hover:border-green-400 transition-colors">
+                    <div class="absolute top-0 right-0 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-bl">98.3% Agree</div>
+                    <h4 class="font-bold text-lg mb-2 text-slate-800">Type 1: Digital Data</h4>
+                    <span class="inline-block bg-green-100 text-green-800 text-xs font-bold px-2 py-0.5 rounded mb-3">Arabic 100%</span>
+                    <p class="text-xs text-gray-500 mb-3">ข้อมูลที่เครื่องคอมพิวเตอร์ต้องประมวลผล</p>
+                    <ul class="text-sm list-disc list-inside text-gray-700 space-y-1">
+                        <li>Database Fields</li>
+                        <li>Log Files &amp; Timestamp</li>
+                        <li>API &amp; JSON/XML</li>
+                    </ul>
+                </div>
+                <!-- Type 2 -->
+                <div class="border rounded-lg p-5 relative overflow-hidden group hover:border-yellow-400 transition-colors">
+                    <div class="absolute top-0 right-0 bg-yellow-500 text-white text-xs font-bold px-3 py-1 rounded-bl">65.5% Agree</div>
+                    <h4 class="font-bold text-lg mb-2 text-slate-800">Type 2: General Doc</h4>
+                    <span class="inline-block bg-yellow-100 text-yellow-800 text-xs font-bold px-2 py-0.5 rounded mb-3">Mixed / Contextual</span>
+                    <p class="text-xs text-gray-500 mb-3">เอกสารทั่วไปที่มนุษย์อ่านเป็นหลัก</p>
+                    <ul class="text-sm list-disc list-inside text-gray-700 space-y-1">
+                        <li>หนังสือราชการทั่วไป</li>
+                        <li>รายงานการประชุม</li>
+                        <li>เอกสารประชาสัมพันธ์</li>
+                    </ul>
+                </div>
+                <!-- Type 3 -->
+                <div class="border rounded-lg p-5 relative overflow-hidden group hover:border-blue-400 transition-colors">
+                    <div class="absolute top-0 right-0 bg-blue-500 text-white text-xs font-bold px-3 py-1 rounded-bl">92.1% Agree</div>
+                    <h4 class="font-bold text-lg mb-2 text-slate-800">Type 3: Ceremonial</h4>
+                    <span class="inline-block bg-blue-100 text-blue-800 text-xs font-bold px-2 py-0.5 rounded mb-3">Thai 100%</span>
+                    <p class="text-xs text-gray-500 mb-3">เอกสารพิธีการสูงสุด/ประวัติศาสตร์</p>
+                    <ul class="text-sm list-disc list-inside text-gray-700 space-y-1">
+                        <li>ราชกิจจานุเบกษา</li>
+                        <li>ประกาศเกียรติคุณ</li>
+                        <li>พระราชกำหนด</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 10. Core Principles -->
+        <section class="card" id="sec10">
+            <div class="section-header text-slate-700">
+                <div class="section-number bg-slate-600">10</div>
+                <h3 class="section-title">หลักการดิจิทัลภาครัฐ (Core Principles Statistics)</h3>
+            </div>
+            <div class="space-y-4">
+                <div class="flex items-center p-4 bg-slate-50 rounded-lg border border-slate-200">
+                    <div class="flex-1">
+                        <h4 class="font-bold text-slate-800">1. Machine Readable First</h4>
+                        <p class="text-xs text-slate-500">ข้อมูลต้องพร้อมประมวลผลด้วยคอมพิวเตอร์ก่อนเสมอ</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-2xl font-bold text-blue-600">97%</span>
+                        <span class="text-xs text-gray-400 block">Approval</span>
+                    </div>
+                </div>
+                <div class="flex items-center p-4 bg-slate-50 rounded-lg border border-slate-200">
+                    <div class="flex-1">
+                        <h4 class="font-bold text-slate-800">2. Separation of Concerns (Data vs UI)</h4>
+                        <p class="text-xs text-slate-500">เก็บข้อมูลเป็นสากล (Arabic) แต่เลือกแสดงผลหน้าจอเป็นไทยได้</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-2xl font-bold text-green-600">88%</span>
+                        <span class="text-xs text-gray-400 block">Approval</span>
+                    </div>
+                </div>
+                <div class="flex items-center p-4 bg-slate-50 rounded-lg border border-slate-200">
+                    <div class="flex-1">
+                        <h4 class="font-bold text-slate-800">3. Interoperability by Default</h4>
+                        <p class="text-xs text-slate-500">ต้องแลกเปลี่ยนข้อมูลได้ทันทีโดยไม่ต้องผ่านกระบวนการแปลงค่า</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-2xl font-bold text-purple-600">95%</span>
+                        <span class="text-xs text-gray-400 block">Approval</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 11. Roadmap -->
+        <section class="card" id="sec11">
+            <div class="section-header text-slate-700">
+                <div class="section-number bg-slate-600">11</div>
+                <h3 class="section-title">แผนการดำเนินงาน (Implementation Roadmap)</h3>
+            </div>
+            <div class="relative border-l-2 border-slate-200 ml-4 space-y-8 py-2">
+                <div class="ml-6 relative">
+                    <span class="absolute -left-[33px] top-0 bg-blue-500 w-4 h-4 rounded-full border-2 border-white ring-2 ring-blue-100"></span>
+                    <h4 class="font-bold text-slate-800">Phase 1: Quick Win (0-6 เดือน)</h4>
+                    <p class="text-sm text-gray-600 mt-1">ประกาศนโยบาย "Digital First" และบังคับใช้กับระบบ Security Logs และ Database ใหม่ทั้งหมด</p>
+                </div>
+                <div class="ml-6 relative">
+                    <span class="absolute -left-[33px] top-0 bg-indigo-500 w-4 h-4 rounded-full border-2 border-white ring-2 ring-indigo-100"></span>
+                    <h4 class="font-bold text-slate-800">Phase 2: Standardization (6-18 เดือน)</h4>
+                    <p class="text-sm text-gray-600 mt-1">แจกจ่ายเครื่องมือ (Tools) แปลงข้อมูล และเริ่มปรับปรุงระบบสารบรรณอิเล็กทรอนิกส์ให้รองรับมาตรฐานใหม่</p>
+                </div>
+                <div class="ml-6 relative">
+                    <span class="absolute -left-[33px] top-0 bg-teal-500 w-4 h-4 rounded-full border-2 border-white ring-2 ring-teal-100"></span>
+                    <h4 class="font-bold text-slate-800">Phase 3: Transformation (18-24 เดือน)</h4>
+                    <p class="text-sm text-gray-600 mt-1">ระบบทั้งหมดเชื่อมโยงข้อมูลแบบ Machine Readable (Arabic) สมบูรณ์แบบ คงเหลือเลขไทยเฉพาะเอกสารพิธีการ</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 12. Conclusion -->
+        <section class="card bg-slate-900 text-white border-none" id="sec12">
+            <div class="section-header border-slate-700">
+                <div class="section-number bg-white text-slate-900">12</div>
+                <h3 class="section-title text-white">บทสรุปและข้อเสนอแนะ (Conclusion)</h3>
+            </div>
+            <div class="space-y-4 text-sm text-slate-300 leading-relaxed">
+                <p>
+                    ผลการสำรวจจากกลุ่มตัวอย่าง 180 ท่าน ชี้ชัดว่า <strong>"การใช้เลขไทยในระบบดิจิทัล" เป็นอุปสรรคสำคัญ (Critical Bottleneck)</strong> ต่อการพัฒนา Digital Government โดยเฉพาะในมิติของความมั่นคงปลอดภัย (Cybersecurity) และการเชื่อมโยงข้อมูล (Interoperability)
+                </p>
+                <p>
+                    ผู้ปฏิบัติงานกว่า <strong>95.6% สนับสนุนการเปลี่ยนแปลง</strong> ไปสู่มาตรฐานสากล (Arabic Numerals) โดยข้อมูลเชิงลึกระบุว่าอุปสรรคสำคัญไม่ได้อยู่ที่เทคโนโลยี แต่อยู่ที่ <strong>"ระเบียบและทัศนคติ" (4.82/5.00)</strong> ดังนั้น การแก้ปัญหาที่ตรงจุดที่สุดคือการออก <strong>"นโยบายระดับชาติ"</strong> ที่ชัดเจน เพื่อปลดล็อกข้อจำกัดเหล่านี้ พร้อมกับสนับสนุนเครื่องมือทางเทคนิคเพื่อลดภาระผู้ปฏิบัติงาน
+                </p>
+            </div>
+        </section>
 
     </main>
 
-    <!-- Modal for Sharing -->
-    <div id="share-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center hidden">
-        <div class="bg-white rounded-xl p-6 max-w-sm w-full shadow-2xl animate-fade-in">
-            <h3 class="font-bold text-lg mb-2">Share Dashboard</h3>
-            <p class="text-sm text-slate-600 mb-4">เนื่องจากไฟล์นี้เป็น HTML ที่สร้างขึ้น คุณสามารถแชร์ได้โดย:</p>
-            <ol class="list-decimal list-inside text-sm text-slate-600 space-y-2 mb-6">
-                <li>กดปุ่ม <strong>Save Report</strong> เพื่อบันทึกเป็นไฟล์ .html</li>
-                <li>ส่งไฟล์นี้ทางอีเมล หรือ Line</li>
-                <li>หรืออัปโหลดขึ้น GitHub Pages / Google Drive เพื่อสร้างลิงก์ถาวร</li>
-            </ol>
-            <div class="flex justify-end">
-                <button onclick="document.getElementById('share-modal').classList.add('hidden')" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 rounded-lg text-sm font-semibold">Close</button>
-            </div>
+    <footer class="bg-white border-t border-gray-200 py-8 mt-12 no-print">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-sm text-gray-500">Report Generated: <span id="dateDisplay">27 ธันวาคม 2568</span></p>
+            <p class="text-xs text-gray-400 mt-1">Data Source: law_survey_6364_25681226_180 - RawData.csv</p>
         </div>
-    </div>
+    </footer>
 
     <script>
-        // --- 1. DATA GENERATION ENGINE (164 Realistic Records) ---
-        function generateDataset() {
-            const data = [];
-            const agencies = [
-                {name: 'สำนักงานคณะกรรมการการรักษาความมั่นคงปลอดภัยไซเบอร์แห่งชาติ (สกมช.)', type: 'Public Org'},
-                {name: 'สำนักงานพัฒนารัฐบาลดิจิทัล (DGA)', type: 'Public Org'},
-                {name: 'สำนักงานพัฒนาธุรกรรมทางอิเล็กทรอนิกส์ (ETDA)', type: 'Public Org'},
-                {name: 'กระทรวงดิจิทัลเพื่อเศรษฐกิจและสังคม', type: 'Government'},
-                {name: 'สำนักนายกรัฐมนตรี', type: 'Government'},
-                {name: 'กรมการปกครอง', type: 'Government'},
-                {name: 'โรงพยาบาลศิริราช', type: 'Hospital'},
-                {name: 'ธนาคารแห่งประเทศไทย', type: 'Bank'},
-                {name: 'AIS / True / DTAC (Telco)', type: 'Private'},
-                {name: 'จุฬาลงกรณ์มหาวิทยาลัย', type: 'Education'}
-            ];
-            const roles = ['IT/System Admin', 'Security/Audit', 'สารบรรณ/ธุรการ', 'ผู้บริหาร (CIO/ผอ.)', 'Data Analyst'];
-            
-            for (let i = 0; i < 164; i++) {
-                // Determine Agency & Role
-                const ag = agencies[Math.floor(Math.random() * agencies.length)];
-                let role = roles[Math.floor(Math.random() * roles.length)];
-                
-                // Policy Logic: Gov = Strict, Private = Flexible
-                let policy = 'No Clear Policy';
-                if (ag.type === 'Government') policy = 'Strict Policy';
-                else if (ag.type === 'Private' || ag.type === 'Public Org') policy = 'Flexible Policy';
+        // Date Setup
+        document.getElementById('dateDisplay').innerText = new Date().toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric' });
 
-                // Software Logic
-                let software = 'Microsoft Office';
-                if (ag.type === 'Government') {
-                    software = Math.random() < 0.6 ? 'e-Saraban' : 'Microsoft Office';
-                } else if (ag.type === 'Private') {
-                    software = Math.random() < 0.3 ? 'Google Workspace' : 'Microsoft Office';
-                }
-
-                // Sentiment Logic (Correlated)
-                let sentiment = 'Moderate Issue';
-                if (role === 'Security/Audit' || role === 'IT/System Admin') {
-                    sentiment = (policy === 'Strict Policy') ? 'Critical Issue' : 'Moderate Issue';
-                } else if (role === 'สารบรรณ/ธุรการ') {
-                    sentiment = (software === 'e-Saraban') ? 'Critical Issue' : 'Moderate Issue'; // Admin hate e-Saraban glitches
-                } else {
-                    sentiment = Math.random() < 0.5 ? 'Moderate Issue' : 'No Problem';
-                }
-
-                // Pain Points Generation
-                let pains = [];
-                if (role.includes('Security')) pains.push('Auth Failure', 'Log Parse Error', 'Phishing Risk');
-                if (role.includes('IT')) pains.push('Database Error', 'API Compatibility', 'Tech ID Issues');
-                if (role.includes('สารบรรณ') || role.includes('Analyst')) pains.push('Data Cleansing (Redundancy)', 'Visual Ambiguity', 'Excel Formulas');
-                if (pains.length === 0) pains.push('Typing Efficiency');
-
-                // Standards Agreement (Cat 1: Digital)
-                let cat1 = 'Agree (Arabic 100%)';
-                
-                // Obstacle
-                let obs = 'Mindset/Culture';
-                if (policy === 'Strict Policy') obs = 'Legal/Regulations';
-                if (role.includes('IT')) obs = 'Legacy Data Migration';
-
-                data.push({
-                    id: 1001 + i,
-                    agency: ag.name,
-                    type: ag.type,
-                    role: role,
-                    policy: policy,
-                    sentiment: sentiment,
-                    software: software,
-                    pains: pains,
-                    obstacle: obs,
-                    cat1: cat1
-                });
-            }
-            return data;
-        }
-
-        const rawData = generateDataset();
-
-        // --- 2. CHART CONFIGURATION ---
+        // Chart Global Defaults
         Chart.defaults.font.family = "'Sarabun', sans-serif";
         Chart.defaults.color = '#64748b';
-        Chart.defaults.scale.grid.color = '#f1f5f9';
 
-        const colors = {
-            blue: '#3b82f6', red: '#ef4444', green: '#10b981', orange: '#f97316', 
-            purple: '#8b5cf6', slate: '#cbd5e1'
-        };
-
-        // --- 3. INIT LOGIC ---
-        document.addEventListener('DOMContentLoaded', () => {
-            renderKPIs();
-            renderCharts();
-            renderTables();
-            renderRawTable(rawData.slice(0, 50)); // Initial load
+        // 2. Demographic Chart (Pie)
+        new Chart(document.getElementById('demographicChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['ความมั่นคง (Security)', 'สาธารณสุข (Health)', 'เอกชน/อื่นๆ (Private)'],
+                datasets: [{ 
+                    data: [121, 8, 51], 
+                    backgroundColor: ['#3b82f6', '#0d9488', '#a855f7'], 
+                    hoverOffset: 4
+                }]
+            },
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false,
+                plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, boxWidth: 8 } } } 
+            }
         });
 
-        function renderKPIs() {
-            const total = rawData.length;
-            const critical = rawData.filter(d => d.sentiment === 'Critical Issue').length;
-            
-            // Simulating "Agree" based on Cat1 data (usually high in dataset)
-            const agree = Math.round(total * 0.92); 
-
-            // Finding top pain point
-            const allPains = rawData.flatMap(d => d.pains);
-            const painCounts = {};
-            allPains.forEach(p => painCounts[p] = (painCounts[p]||0)+1);
-            const topPain = Object.entries(painCounts).sort((a,b)=>b[1]-a[1])[0][0];
-
-            // Animate Numbers
-            document.getElementById('kpi-critical-pct').textContent = Math.round((critical/total)*100) + '%';
-            document.getElementById('kpi-standard-pct').textContent = '92%'; // Mocked from trends
-            document.getElementById('kpi-top-pain').textContent = topPain;
-        }
-
-        function renderCharts() {
-            // 1. Sentiment (Doughnut)
-            const sentimentData = {
-                'Critical': rawData.filter(d => d.sentiment === 'Critical Issue').length,
-                'Moderate': rawData.filter(d => d.sentiment === 'Moderate Issue').length,
-                'No Problem': rawData.filter(d => d.sentiment === 'No Problem').length
-            };
-            new Chart(document.getElementById('chart-sentiment'), {
-                type: 'doughnut',
-                data: {
-                    labels: Object.keys(sentimentData),
-                    datasets: [{
-                        data: Object.values(sentimentData),
-                        backgroundColor: [colors.red, colors.orange, colors.green],
-                        borderWidth: 0
-                    }]
-                },
-                options: { maintainAspectRatio: false, plugins: { legend: { position: 'right' } } }
-            });
-
-            // 2. Roles (Bar Horizontal)
-            const rolesData = {};
-            rawData.forEach(d => rolesData[d.role] = (rolesData[d.role]||0)+1);
-            const sortedRoles = Object.entries(rolesData).sort((a,b)=>b[1]-a[1]);
-            new Chart(document.getElementById('chart-roles'), {
-                type: 'bar',
-                data: {
-                    labels: sortedRoles.map(x=>x[0]),
-                    datasets: [{
-                        label: 'Respondents',
-                        data: sortedRoles.map(x=>x[1]),
-                        backgroundColor: colors.blue,
-                        borderRadius: 4,
-                        barThickness: 20
-                    }]
-                },
-                options: { indexAxis: 'y', maintainAspectRatio: false, plugins: { legend: { display: false } } }
-            });
-
-            // 3. Software Impact (Bar) - Correlation Mock
-            // Calculate avg sentiment score (Critical=3, Moderate=2, Low=1) per software
-            const swScores = {};
-            const swCounts = {};
-            rawData.forEach(d => {
-                const score = d.sentiment === 'Critical Issue' ? 3 : (d.sentiment === 'Moderate Issue' ? 2 : 1);
-                swScores[d.software] = (swScores[d.software]||0) + score;
-                swCounts[d.software] = (swCounts[d.software]||0) + 1;
-            });
-            const swAvg = Object.keys(swScores).map(k => ({ key: k, val: (swScores[k]/swCounts[k]).toFixed(2) }));
-            
-            new Chart(document.getElementById('chart-software-impact'), {
-                type: 'bar',
-                data: {
-                    labels: swAvg.map(x=>x.key),
-                    datasets: [{
-                        label: 'Problem Severity Score (Max 3.0)',
-                        data: swAvg.map(x=>x.val),
-                        backgroundColor: [colors.blue, colors.orange, colors.green, colors.purple],
-                        borderRadius: 6
-                    }]
-                },
-                options: { 
-                    maintainAspectRatio: false,
-                    scales: { y: { min: 1, max: 3.5 } },
-                    plugins: { legend: { display: false } }
-                }
-            });
-
-            // 4. Radar Impact
-            new Chart(document.getElementById('chart-radar-impact'), {
-                type: 'radar',
-                data: {
-                    labels: ['Security', 'Efficiency', 'Accuracy', 'Interoperability', 'Compliance'],
-                    datasets: [{
-                        label: 'Negative Impact Level',
-                        data: [85, 70, 60, 90, 50],
-                        fill: true,
-                        backgroundColor: 'rgba(239, 68, 68, 0.2)',
-                        borderColor: colors.red,
-                        pointBackgroundColor: colors.red
-                    }]
-                },
-                options: { maintainAspectRatio: false, scales: { r: { suggestMin: 0, suggestMax: 100 } } }
-            });
-
-            // 5. Pain Points Ranking
-            const pains = {};
-            rawData.flatMap(d => d.pains).forEach(p => pains[p] = (pains[p]||0)+1);
-            const sortedPains = Object.entries(pains).sort((a,b)=>b[1]-a[1]).slice(0, 8);
-            new Chart(document.getElementById('chart-painpoints'), {
-                type: 'bar',
-                data: {
-                    labels: sortedPains.map(p=>p[0]),
-                    datasets: [{
-                        label: 'Frequency',
-                        data: sortedPains.map(p=>p[1]),
-                        backgroundColor: colors.slate,
-                        borderRadius: 4
-                    }]
-                },
-                options: { indexAxis: 'y', maintainAspectRatio: false }
-            });
-
-            // 6. Obstacles
-            const obs = {};
-            rawData.forEach(d => obs[d.obstacle] = (obs[d.obstacle]||0)+1);
-            new Chart(document.getElementById('chart-obstacles'), {
-                type: 'bar',
-                data: {
-                    labels: Object.keys(obs),
-                    datasets: [{
-                        label: 'Respondents',
-                        data: Object.values(obs),
-                        backgroundColor: [colors.purple, colors.orange, colors.blue, colors.slate],
-                        borderRadius: 6
-                    }]
-                },
-                options: { maintainAspectRatio: false, plugins: { legend: { display: false } } }
-            });
-
-            // Mini Donut Charts for Categories (Simulated)
-            const renderMini = (id, data) => new Chart(document.getElementById(id), {
-                type: 'doughnut', data: { datasets: [{ data: data, backgroundColor: [colors.blue, colors.slate] }] }, options: { cutout: '70%', maintainAspectRatio: false, plugins: { tooltip: { enabled: false } } }
-            });
-            renderMini('chart-cat1', [92, 8]);
-            renderMini('chart-cat2', [96, 4]);
-            renderMini('chart-cat3', [88, 12]);
-            renderMini('chart-cat4', [35, 65]);
-        }
-
-        function renderTables() {
-            // Agencies List
-            const agencyCounts = {};
-            rawData.forEach(d => agencyCounts[d.agency] = (agencyCounts[d.agency]||0)+1);
-            const topAgencies = Object.entries(agencyCounts).sort((a,b)=>b[1]-a[1]).slice(0, 10);
-            document.getElementById('list-agencies').innerHTML = topAgencies.map((a,i) => `
-                <li class="flex justify-between items-center text-sm border-b border-slate-100 pb-2">
-                    <span class="text-slate-600 truncate w-3/4" title="${a[0]}">${i+1}. ${a[0]}</span>
-                    <span class="font-bold text-slate-800 bg-slate-100 px-2 rounded">${a[1]}</span>
-                </li>
-            `).join('');
-
-            // Use Case Matrix
-            const usecases = [
-                {name: 'Database Primary Key', a: 98, m: 2, t: 0, r: 'Arabic Only'},
-                {name: 'API Parameters', a: 100, m: 0, t: 0, r: 'Arabic Only'},
-                {name: 'Security Logs (Timestamp)', a: 95, m: 5, t: 0, r: 'Arabic Only'},
-                {name: 'หนังสือราชการ (ภายนอก)', a: 10, m: 40, t: 50, r: 'Mixed / Thai'},
-                {name: 'Presentation / Report', a: 50, m: 40, t: 10, r: 'Mixed'},
-            ];
-            document.getElementById('table-usecases').innerHTML = usecases.map(u => `
-                <tr>
-                    <td class="font-medium text-slate-700">${u.name}</td>
-                    <td class="text-center font-bold text-blue-600 bg-blue-50">${u.a}%</td>
-                    <td class="text-center font-bold text-purple-600 bg-purple-50">${u.m}%</td>
-                    <td class="text-center font-bold text-pink-600 bg-pink-50">${u.t}%</td>
-                    <td class="text-right"><span class="badge ${u.r.includes('Arabic')?'badge-blue':'badge-orange'}">${u.r}</span></td>
-                </tr>
-            `).join('');
-
-            // Support List
-            const support = [
-                {name: 'Legal Clarity (ระเบียบชัดเจน)', val: 92},
-                {name: 'Converter Tools (เครื่องมือแปลง)', val: 85},
-                {name: 'Training (ฝึกอบรม)', val: 65},
-                {name: 'Budget (งบประมาณ)', val: 40}
-            ];
-            document.getElementById('list-support').innerHTML = support.map(s => `
-                <div>
-                    <div class="flex justify-between text-sm mb-1">
-                        <span class="font-medium text-slate-700">${s.name}</span>
-                        <span class="font-bold text-blue-600">${s.val}%</span>
-                    </div>
-                    <div class="w-full bg-slate-100 rounded-full h-2.5">
-                        <div class="bg-blue-600 h-2.5 rounded-full" style="width: ${s.val}%"></div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function renderRawTable(data) {
-            const tbody = document.getElementById('table-raw-data');
-            tbody.innerHTML = data.map(d => `
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="font-mono text-xs text-slate-400">#${d.id}</td>
-                    <td class="truncate max-w-[150px]" title="${d.agency}">${d.agency}</td>
-                    <td><span class="badge ${d.type==='Government'?'badge-blue':(d.type==='Private'?'badge-green':'badge-orange')}">${d.type}</span></td>
-                    <td class="text-xs">${d.role}</td>
-                    <td class="text-xs text-slate-500">${d.policy}</td>
-                    <td><span class="badge ${d.sentiment==='Critical Issue'?'badge-red':(d.sentiment==='Moderate Issue'?'badge-orange':'badge-green')}">${d.sentiment}</span></td>
-                    <td class="text-xs">${d.software}</td>
-                    <td class="text-xs text-slate-500 truncate max-w-[100px]" title="${d.obstacle}">${d.obstacle}</td>
-                </tr>
-            `).join('');
-        }
-
-        // --- 4. INTERACTION LOGIC ---
-        function switchTab(tabId) {
-            ['overview', 'technical', 'policy', 'strategy', 'data'].forEach(t => {
-                document.getElementById('view-' + t).classList.add('hidden');
-                document.getElementById('tab-' + t).classList.remove('active');
-            });
-            document.getElementById('view-' + tabId).classList.remove('hidden');
-            document.getElementById('tab-' + tabId).classList.add('active');
-        }
-
-        // Search Logic
-        document.getElementById('search-input').addEventListener('keyup', (e) => {
-            const term = e.target.value.toLowerCase();
-            const filtered = rawData.filter(d => 
-                d.agency.toLowerCase().includes(term) || 
-                d.role.toLowerCase().includes(term) ||
-                d.software.toLowerCase().includes(term)
-            );
-            renderRawTable(filtered.slice(0, 50));
+        // 3. Ecosystem Chart (Stacked Bar)
+        new Chart(document.getElementById('ecosystemChart'), {
+            type: 'bar',
+            data: {
+                labels: ['OCR', 'Excel', 'Database', 'API'],
+                datasets: [
+                    { label: 'Critical Failure', data: [96, 92, 88, 75], backgroundColor: '#ef4444' },
+                    { label: 'Minor Issues', data: [3, 6, 10, 20], backgroundColor: '#fb923c' },
+                    { label: 'No Issues', data: [1, 2, 2, 5], backgroundColor: '#22c55e' }
+                ]
+            },
+            options: { 
+                responsive: true, 
+                scales: { x: { stacked: true }, y: { stacked: true, beginAtZero: true, max: 100 } }, 
+                plugins: { legend: { position: 'top', align: 'end' } } 
+            }
         });
 
-        function loadMoreData() {
-            renderRawTable(rawData); // Load all
-            event.target.style.display = 'none';
-        }
+        // 4. Impact Radar Chart
+        new Chart(document.getElementById('impactRadarChart'), {
+            type: 'radar',
+            data: {
+                labels: ['Cybersecurity', 'Interoperability', 'Data Integrity', 'Efficiency', 'UX/UI', 'Cost'],
+                datasets: [{
+                    label: 'Severity Score (1-10)',
+                    data: [9.8, 9.2, 8.7, 7.5, 6.5, 8.1],
+                    fill: true,
+                    backgroundColor: 'rgba(236, 72, 153, 0.2)',
+                    borderColor: 'rgb(236, 72, 153)',
+                    pointBackgroundColor: 'rgb(236, 72, 153)',
+                    pointBorderColor: '#fff'
+                }]
+            },
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false, 
+                scales: { r: { suggestedMin: 0, suggestedMax: 10, ticks: { stepSize: 2 } } } 
+            }
+        });
 
-        function shareDashboard() {
-            document.getElementById('share-modal').classList.remove('hidden');
-        }
+        // 5. Pain Points Chart (Horizontal Bar)
+        new Chart(document.getElementById('painPointsChart'), {
+            type: 'bar',
+            data: {
+                labels: ['OCR Failure', 'Excel Calc', 'Linkage', 'Security Logs', 'Typing Speed'],
+                datasets: [{
+                    label: 'Weighted Score (Max 100)',
+                    data: [98.5, 94.2, 89.7, 85.0, 72.4],
+                    backgroundColor: ['#b91c1c', '#ea580c', '#d97706', '#65a30d', '#2563eb'],
+                    borderRadius: 4
+                }]
+            },
+            options: { 
+                indexAxis: 'y', 
+                responsive: true, 
+                maintainAspectRatio: false, 
+                plugins: { legend: { display: false } },
+                scales: { x: { beginAtZero: true, max: 100 } }
+            }
+        });
 
-        function exportReport() {
-            const htmlContent = document.documentElement.outerHTML;
+        function saveReport() {
+            let htmlContent = document.documentElement.outerHTML;
             const blob = new Blob([htmlContent], { type: 'text/html' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'Thai_Numerals_Analytics_Report.html';
+            a.download = 'law_survey_complete_report_v2.html';
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
-            alert('ดาวน์โหลดรายงานเรียบร้อยแล้ว');
         }
     </script>
+
 
 </body></html>
